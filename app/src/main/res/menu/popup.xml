@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/purple_200">
+
+    <item android:id="@+id/manager"
+        android:title="Manager"/>
+    <item android:id="@+id/employee"
+        android:title="Employee"/>
+    <item android:id="@+id/customer"
+        android:title="Customer"/>
+
+</menu>
