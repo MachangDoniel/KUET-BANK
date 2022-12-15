@@ -13,9 +13,9 @@
     <com.google.android.material.navigation.NavigationView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:id="@+id/nav_view"
-        app:headerLayout="@layout/header"
-        app:menu="@menu/main_menu"
+        android:id="@+id/nav_view2"
+        app:headerLayout="@layout/headercustomer"
+        app:menu="@menu/main_menu_customer"
         android:layout_gravity="start"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -130,7 +130,7 @@
                         android:id="@+id/transfer2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Transfer"
+                        android:text="TRANSFER"
                         android:textStyle="bold"
                         android:textAlignment="center"/>
                 </LinearLayout>
@@ -217,7 +217,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Payment"
+                        android:text="PAYMENT"
                         android:textStyle="bold"
                         android:textAlignment="center"/>
                 </LinearLayout>
@@ -245,7 +245,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="WITHDRAW"
+                        android:text="X"
                         android:textStyle="bold"
                         android:textAlignment="center"/>
                 </LinearLayout>
@@ -274,7 +274,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="LOAN"
+                        android:text="X"
                         android:textStyle="bold"
                         android:textAlignment="center"/>
                 </LinearLayout>

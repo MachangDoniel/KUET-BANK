@@ -11,4 +11,9 @@
     <color name="pink">#FF0057</color>
     <color name="green">#00FF00</color>
     <color name="yellow">#FFE500</color>
+    <color name="bgcolor">#535148</color>
+    <color name="bgcolor2">#00FFF6</color>
+    <color name="newcolor">#0d6e6a</color>
+    <color name="red">#FF0027</color>
+
 </resources>

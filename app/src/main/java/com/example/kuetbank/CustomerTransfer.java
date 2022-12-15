@@ -33,7 +33,7 @@ public class CustomerTransfer extends AppCompatActivity {
         t2=findViewById(R.id.showbalance);
         Bundle b1=getIntent().getExtras();
         int Balance=0,count=0;
-        String ACC=getIntent().getStringExtra("Account_No");
+        String ACC=getIntent().getStringExtra("accountno");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -77,43 +77,6 @@ public class CustomerTransfer extends AppCompatActivity {
 
                     }
                 });
-            }
-        });
-
-        profile=findViewById(R.id.profile);
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerTransfer.this,CustomerProfile.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
-        transfer=findViewById(R.id.transfer);
-        transfer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerTransfer.this,CustomerTransfer.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
-        payment=findViewById(R.id.payment);
-        payment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerTransfer.this,CustomerPayment.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
-        loan=findViewById(R.id.loan);
-        loan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerTransfer.this,CustomerLoan.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
             }
         });
 
@@ -184,7 +147,7 @@ public class CustomerTransfer extends AppCompatActivity {
                                                 ref.child(AccountNo).child("balance").setValue(Balance2);
                                                 Toast.makeText(CustomerTransfer.this,"Transaction Successfull",Toast.LENGTH_SHORT).show();
                                                 Intent intent=new Intent(CustomerTransfer.this,CustomerProfile.class);
-                                                intent.putExtra("Account_No",ACC);
+                                                intent.putExtra("accountno",ACC);
                                                 startActivity(intent);
                                             }
                                             else{

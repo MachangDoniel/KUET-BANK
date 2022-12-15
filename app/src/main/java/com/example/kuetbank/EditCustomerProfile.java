@@ -38,7 +38,7 @@ public class EditCustomerProfile extends AppCompatActivity {
         mobileno=findViewById(R.id.mobile);
         address=findViewById(R.id.address);
 
-        String ACC=getIntent().getStringExtra("Account_No");
+        String ACC=getIntent().getStringExtra("accountno");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -77,68 +77,6 @@ public class EditCustomerProfile extends AppCompatActivity {
             }
         });
 
-
-        balance=findViewById(R.id.bal);
-        balance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.hasChild(ACC)){
-                            //String getBalance=snapshot.child(ACC).child("balance").getValue(String.class);
-                            String getBalance=snapshot.child(ACC).child("balance").getValue().toString();
-                            t2.setText(getBalance);
-                        }
-                        else{
-                            Toast.makeText(EditCustomerProfile.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-        });
-
-        profile=findViewById(R.id.profile);
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(EditCustomerProfile.this,CustomerProfile.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
-        transfer=findViewById(R.id.transfer);
-        transfer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(EditCustomerProfile.this,CustomerTransfer.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
-        payment=findViewById(R.id.payment);
-        payment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(EditCustomerProfile.this,CustomerPayment.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
-        loan=findViewById(R.id.loan);
-        loan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(EditCustomerProfile.this,CustomerLoan.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
         save=findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +97,7 @@ public class EditCustomerProfile extends AppCompatActivity {
                 ref.child(ACC).child("address").setValue(Address);
 
                 Intent intent=new Intent(EditCustomerProfile.this,CustomerProfile.class);
-                intent.putExtra("Account_No",ACC);
+                intent.putExtra("accountno",ACC);
                 startActivity(intent);
             }
         });

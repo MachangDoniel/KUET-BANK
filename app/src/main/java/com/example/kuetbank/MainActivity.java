@@ -2,6 +2,7 @@ package com.example.kuetbank;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,23 +26,25 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     DatabaseReference ref,dataBaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://kuet-bank-default-rtdb.firebaseio.com");
 
+    EditText Phone,Pin;
+    Button login,register,forgot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         ref= FirebaseDatabase.getInstance().getReference().child("Customer");
-        TextView Accno =  findViewById(R.id.accno);
-        TextView Pin =  findViewById(R.id.pin);
-        Button login = findViewById(R.id.login);
+        Phone =  findViewById(R.id.phone);
+        Pin =  findViewById(R.id.pin);
+        login = findViewById(R.id.login);
         //String ACC = "1907121", PIN = "121";
         //1907121 & 121
-        String ACC = Accno.getText().toString();
+        String ACC = Phone.getText().toString();
         String PIN = Pin.getText().toString();
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String ACC = Accno.getText().toString();
+                String ACC = Phone.getText().toString();
                 String PIN = Pin.getText().toString();
                 if (ACC.isEmpty() || PIN.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Enter Account No and Pin", Toast.LENGTH_SHORT).show();
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                                 if (getPin.equals(PIN)) {
                                     Toast.makeText(MainActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, CustomerHome.class);
-                                    intent.putExtra("Account_No", ACC);
+                                    intent.putExtra("accountno", ACC);
                                     startActivity(intent);
                                     finish();
                                 } else {
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
 
-        Button register = (Button) findViewById(R.id.register);
+        register = (Button) findViewById(R.id.register);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

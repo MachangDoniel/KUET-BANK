@@ -1,7 +1,7 @@
 package com.example.kuetbank;
 
 public class Customer {
-    public String accountno, accounttype, name, mobile, email, pass, gender, dob, address, balance;
+    public String accountno, accounttype, name, mobile,pass, gender, dob, address, balance;
 
     public String getAccountno() {
         return accountno;
@@ -29,14 +29,6 @@ public class Customer {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPass() {
@@ -81,12 +73,11 @@ public class Customer {
 
     public Customer(){ }
 
-    public Customer(String accountno, String accounttype, String name, String mobile, String email, String pass, String gender, String dob, String address, String balance) {
+    public Customer(String accountno, String accounttype, String name, String mobile, String pass, String gender, String dob, String address, String balance) {
         this.accountno = accountno;
         this.accounttype = accounttype;
         this.name = name;
         this.mobile = mobile;
-        this.email = email;
         this.pass = pass;
         this.gender = gender;
         this.dob = dob;

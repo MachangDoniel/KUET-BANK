@@ -1,44 +1,68 @@
 package com.example.kuetbank;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class CustomerHome extends AppCompatActivity {
+public class CustomerHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DatabaseReference ref,dataBaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://kuet-bank-default-rtdb.firebaseio.com");
+    DatabaseReference ref;
     private TextView t1,t2;
-    Button balance,profile,transfer,payment,loan;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    Toolbar toolbar;
+
+
+    ImageView home,profile,transfer,payment,withdraw,loan,notification;
+    TextView home2,profile2,transfer2,payment2,withdraw2,loan2,notification2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_home);
 
+        drawerLayout=findViewById(R.id.drawer_layout);
+        navigationView=findViewById(R.id.nav_view2);
+        toolbar=findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+
+
         ref= FirebaseDatabase.getInstance().getReference().child("Customer");
-        t1=findViewById(R.id.uname);
-        t2=findViewById(R.id.showbalance);
-        Bundle b1=getIntent().getExtras();
-        int Balance=0,count=0;
-        String ACC=getIntent().getStringExtra("Account_No");
+
+        String ACC=getIntent().getStringExtra("accountno");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(ACC)){
                     //String getName=snapshot.child(ACC).child("Name").getValue(String.class);
                     String getName=snapshot.child(ACC).child("name").getValue().toString();
-                    t1.setText(getName);
+                    //t1.setText(getName);
                 }
                 else{
                     Toast.makeText(CustomerHome.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
@@ -52,38 +76,12 @@ public class CustomerHome extends AppCompatActivity {
         });
 
 
-        balance=findViewById(R.id.bal);
-        balance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.hasChild(ACC)){
-                            //String getBalance=snapshot.child(ACC).child("Balance").getValue(String.class);
-                            String getBalance=snapshot.child(ACC).child("balance").getValue().toString();
-                            String s=getBalance+" ৳";
-                            t2.setText(s);
-                        }
-                        else{
-                            Toast.makeText(CustomerHome.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-        });
-
         profile=findViewById(R.id.profile);
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(CustomerHome.this,CustomerProfile.class);
-                intent.putExtra("Account_No",ACC);
+                intent.putExtra("accountno",ACC);
                 startActivity(intent);
             }
         });
@@ -92,27 +90,42 @@ public class CustomerHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(CustomerHome.this,CustomerTransfer.class);
-                intent.putExtra("Account_No",ACC);
+                intent.putExtra("accountno",ACC);
                 startActivity(intent);
             }
         });
-        payment=findViewById(R.id.payment);
-        payment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerHome.this,CustomerPayment.class);
-                intent.putExtra("Account_No",ACC);
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else{
+            super.onBackPressed();
+        }
+        startActivity(new Intent(CustomerHome.this,CustomerHome.class));
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        String ACC=getIntent().getStringExtra("accountno");
+        switch(item.getItemId()){
+            case R.id.nav_home:
+                break;
+            case R.id.nav_profile:
+                intent=new Intent(CustomerHome.this,CustomerProfile.class);
+                intent.putExtra("accountno",ACC);
                 startActivity(intent);
-            }
-        });
-        loan=findViewById(R.id.loan);
-        loan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerHome.this,CustomerLoan.class);
-                intent.putExtra("Account_No",ACC);
+                break;
+            case R.id.nav_transfer:
+                intent=new Intent(CustomerHome.this,CustomerTransfer.class);
+                intent.putExtra("accountno",ACC);
                 startActivity(intent);
-            }
-        });
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

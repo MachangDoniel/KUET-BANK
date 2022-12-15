@@ -38,7 +38,7 @@ public class CustomerProfile extends AppCompatActivity {
         mobileno=findViewById(R.id.mobile);
         address=findViewById(R.id.address);
 
-        String ACC=getIntent().getStringExtra("Account_No");
+        String ACC=getIntent().getStringExtra("accountno");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -110,7 +110,7 @@ public class CustomerProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(CustomerProfile.this,CustomerProfile.class);
-                intent.putExtra("Account_No",ACC);
+                intent.putExtra("accountno",ACC);
                 startActivity(intent);
             }
         });
@@ -119,34 +119,17 @@ public class CustomerProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(CustomerProfile.this,CustomerTransfer.class);
-                intent.putExtra("Account_No",ACC);
+                intent.putExtra("accountno",ACC);
                 startActivity(intent);
             }
         });
-        payment=findViewById(R.id.payment);
-        payment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerProfile.this,CustomerPayment.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
-        loan=findViewById(R.id.loan);
-        loan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerProfile.this,CustomerLoan.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
+
         edit=findViewById(R.id.edit);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(CustomerProfile.this,EditCustomerProfile.class);
-                intent.putExtra("Account_No",ACC);
+                intent.putExtra("accountno",ACC);
                 startActivity(intent);
             }
         });
