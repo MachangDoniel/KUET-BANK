@@ -5,76 +5,82 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CustomerOTPsend">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="200dp">
+        android:layout_marginTop="200dp"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OTP VERIFICATION"
-            android:textSize="30dp"
-            android:textColor="@color/newcolor"
+            android:layout_gravity="center_horizontal"
             android:layout_margin="30dp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"/>
+            android:text="GET OTP"
+            android:textColor="@color/newcolor"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:text="We sent an OTP to your Phone, Enter it to go forward"
             android:layout_gravity="center_horizontal"
-            android:textStyle="italic"/>
-        <TextView
-            android:id="@+id/mobile"
+            android:layout_marginTop="80dp"
+            android:text="Click send to get 6 digit OTP code"
+            android:textStyle="italic" />
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="01234567890"
-            android:layout_gravity="center_horizontal"
-            android:textStyle="italic"/>
+            android:layout_gravity="center">
 
-    <EditText
-        android:id="@+id/otp"
-        android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/cc"
+                android:layout_width="60sp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:text="+880"
+                android:inputType="number"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/mobile"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text="1234567890"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/send"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:text="Send" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:ems="10"
-        android:hint="Enter OTP"
-        android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/resend"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_gravity="end"
-            android:layout_marginRight="30dp"
-            android:background="@color/red"
-            android:text="Resend" />
-
-    <Button
-        android:id="@+id/send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Verify"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.595" />
-
-    </LinearLayout>
+        app:layout_constraintVertical_bias="0.5"
+        android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

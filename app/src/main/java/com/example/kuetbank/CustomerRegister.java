@@ -4,8 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,10 +16,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kuetbank.databinding.ActivityBlankBinding;
-import com.example.kuetbank.databinding.ActivityCustomerOtpsendBinding;
 import com.example.kuetbank.databinding.ActivityCustomerRegisterBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
@@ -34,220 +36,134 @@ import java.util.concurrent.TimeUnit;
 public class CustomerRegister extends AppCompatActivity {
 
     DatabaseReference ref;
-    private EditText Pin,Name,DateOfBirth,MobileNo,Address;
-    private Button Next;
-    private TextView AccNo;
-    private RadioGroup Gender,AccType;
-    private RadioButton rbutton;
-    private Double Balance=0D;
-    private Customer customer;
-    private ActivityCustomerRegisterBinding binding;
-    FirebaseAuth auth;
+    EditText Pin, Name, DateOfBirth, MobileNo, Address;
+    Button Next;
+    TextView AccNo;
+    RadioGroup Gender, AccType;
+    RadioButton rbutton;
+    FirebaseAuth mauth;
     ProgressBar progressBar;
-    PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+
+    private FirebaseAuth mAuth;
+    private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
+    String mobileno;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_register);
-        binding= ActivityCustomerRegisterBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
 
-        //progressBar=findViewById(R.id.progressBar);
-        auth=FirebaseAuth.getInstance();
+        progressBar=findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+        AccNo = findViewById(R.id.accountno);
+        Pin = findViewById(R.id.pin);
+        Name = findViewById(R.id.name);
+        DateOfBirth = findViewById(R.id.dob);
+        MobileNo = findViewById(R.id.mobile);
+        Address = findViewById(R.id.address);
+        Gender = findViewById(R.id.gender);
+        AccType = findViewById(R.id.accounttype);
+        mauth = FirebaseAuth.getInstance();
 
-        AccNo=findViewById(R.id.accountno);
-        Pin=findViewById(R.id.pin);
-        Name=findViewById(R.id.name);
-        DateOfBirth=findViewById(R.id.dob);
-        MobileNo=findViewById(R.id.mobile);
-        Address=findViewById(R.id.address);
-        Gender=findViewById(R.id.gender);
-        AccType=findViewById(R.id.accounttype);
-        ref= FirebaseDatabase.getInstance().getReference().child("Customer");
-
-        binding.next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(binding.mobile.getText().toString().trim().isEmpty()){
-                    Toast.makeText(CustomerRegister.this, "Number can't be empty", Toast.LENGTH_SHORT).show();
-                }
-                else if(binding.mobile.getText().toString().trim().length()!=10){
-                    Toast.makeText(CustomerRegister.this, "Invalid Number", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    otpsend();
-                }
-            }
-        });
-
-
-        /*
-        AccNo=findViewById(R.id.accountno);
-        Pin=findViewById(R.id.pin);
-        Name=findViewById(R.id.name);
-        DateOfBirth=findViewById(R.id.dob);
-        MobileNo=findViewById(R.id.mobile);
-        Address=findViewById(R.id.address);
-        Gender=findViewById(R.id.gender);
-        AccType=findViewById(R.id.accounttype);
-        ref= FirebaseDatabase.getInstance().getReference().child("Customer");
-
-
-        Double random=10000000*Math.random();
-        Integer ran=random.intValue();
-        String AccountNo=String.valueOf(ran);
+        Double random = 10000000 * Math.random();
+        Double random2 = 10000 * Math.random();
+        Integer ran = random.intValue();
+        Integer ran2 = random2.intValue();
+        String AccountNo = String.valueOf(ran);
         AccNo.setText(AccountNo);
 
 
-
-        Next=(Button)findViewById(R.id.next);
+        Next = (Button) findViewById(R.id.next);
         Next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String AccountNo=AccNo.getText().toString();
-                String pin=Pin.getText().toString();
-                String name=Name.getText().toString();
-                String dateofbirth=DateOfBirth.getText().toString();
-                String mobileno=MobileNo.getText().toString();
-                String address=Address.getText().toString();
-
-                int genderid=Gender.getCheckedRadioButtonId();
-                rbutton=findViewById(genderid);
-                String gender=(String)rbutton.getText();
-                int accid2=AccType.getCheckedRadioButtonId();
-                rbutton=findViewById(accid2);
-                String acctype=(String)rbutton.getText();
-
-                String balance=String.valueOf(Balance);
-                //String balance=bal+" ৳";
-
-
-                if(AccountNo.isEmpty() || pin.isEmpty() || name.isEmpty() || dateofbirth.isEmpty() || mobileno.isEmpty() || acctype.isEmpty() || gender.isEmpty()){
-                    Toast.makeText(CustomerRegister.this,"Enter Required data",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.hasChild(AccountNo)) {
-                                Toast.makeText(CustomerRegister.this, "Account No is already registered", Toast.LENGTH_SHORT).show();
-                            } else {
-                                customer = new Customer(AccountNo, acctype, name, mobileno, pin, gender, dateofbirth, address, balance);
-
-                            }
-                            dataBaseReference.child("users").child(AccountNo).child("Account No").setValue(AccountNo);
-                            dataBaseReference.child("users").child(AccountNo).child("MICR").setValue(micr);
-                            dataBaseReference.child("users").child(AccountNo).child("Pin").setValue(pin);
-                            dataBaseReference.child("users").child(AccountNo).child("Name").setValue(name);
-                            dataBaseReference.child("users").child(AccountNo).child("Email").setValue(email);
-                            dataBaseReference.child("users").child(AccountNo).child("Date of Birth").setValue(dateofbirth);
-                            dataBaseReference.child("users").child(AccountNo).child("Nationality").setValue(nationality);
-                            dataBaseReference.child("users").child(AccountNo).child("Mobile No").setValue(mobileno);
-                            dataBaseReference.child("users").child(AccountNo).child("Address").setValue(address);
-
-                            dataBaseReference.child("users").child(AccountNo).child("Gender").setValue(gender);
-                            dataBaseReference.child("users").child(AccountNo).child("Account Type").setValue(acctype);
-
-                            dataBaseReference.child("users").child(AccountNo).child("Balance").setValue(balance);
-
-                                ref.child(mobileno).setValue(customer);
-                                Toast.makeText(CustomerRegister.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
+                //Toast.makeText(CustomerRegister.this, "Next Clicked", Toast.LENGTH_SHORT).show();
+                employeesignup();
+                //startActivity(new Intent(CustomerRegister.this,EmployeeRegister.class));
             }
         });
-        */
+    }
 
+    private void employeesignup() {
+        //ref=FirebaseDatabase.getInstance().getReference("Customer");
+        String AccountNo = AccNo.getText().toString();
+        String pin = Pin.getText().toString();
+        String name = Name.getText().toString();
+        String dateofbirth = DateOfBirth.getText().toString();
+        mobileno = MobileNo.getText().toString();
+        String address = Address.getText().toString();
+
+        int genderid = Gender.getCheckedRadioButtonId();
+        rbutton = findViewById(genderid);
+        String gender = (String) rbutton.getText();
+        int accid2 = AccType.getCheckedRadioButtonId();
+        rbutton = findViewById(accid2);
+        String acctype = (String) rbutton.getText();
+        Double Balance=0D;
+        String balance = String.valueOf(Balance);
+
+        if(name.isEmpty()){
+            //Toast.makeText(CustomerRegister.this, "Enter Name", Toast.LENGTH_SHORT).show();
+            Name.setError("Please Enter Name");
+            Name.requestFocus();
+            return;
+        }
+        if(mobileno.isEmpty()){
+            //Toast.makeText(CustomerRegister.this, "Enter Name", Toast.LENGTH_SHORT).show();
+            MobileNo.setError("Please Enter Name");
+            MobileNo.requestFocus();
+            return;
+        }
+        if(mobileno.length()!=10){
+            //Toast.makeText(CustomerRegister.this, "Enter Name", Toast.LENGTH_SHORT).show();
+            MobileNo.setError("Please Enter Valid Number");
+            MobileNo.requestFocus();
+            return;
+        }
+        if(pin.isEmpty()){
+            //Toast.makeText(CustomerRegister.this, "Enter Name", Toast.LENGTH_SHORT).show();
+            Pin.setError("Please Enter Pin");
+            Pin.requestFocus();
+            return;
+        }
+        if(pin.length()<3){
+            //Toast.makeText(this, "Enter Password", Toast.LENGTH_SHORT).show();
+            Pin.setError("Minimum password length must be 6 character");
+            Pin.requestFocus();
+            return;
+        }
+        if(dateofbirth.isEmpty()){
+            //Toast.makeText(CustomerRegister.this, "Enter Name", Toast.LENGTH_SHORT).show();
+            DateOfBirth.setError("Please Enter date of birth");
+            DateOfBirth.requestFocus();
+            return;
+        }
+
+        if(AccountNo.isEmpty() || acctype.isEmpty() || name.isEmpty() || mobileno.isEmpty() || pin.isEmpty() || gender.isEmpty())
+        {
+            Toast.makeText(this, "Enter Required Data", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else
+        {
+            Customer customer=new Customer(AccountNo,acctype,name,mobileno,pin,gender,dateofbirth,address,balance);
+            FirebaseDatabase.getInstance().getReference("Customer").child(mobileno).setValue(customer).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(CustomerRegister.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(CustomerRegister.this,CustomerOTPsend.class);
+                        intent.putExtra("phone",mobileno);
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast.makeText(CustomerRegister.this, "Failed to register"+task.getException(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
     public void onBackPressed(){
         startActivity(new Intent(CustomerRegister.this,MainActivity.class));
-    }
-    private void otpsend(){
-        mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-            @Override
-            public void onVerificationCompleted(PhoneAuthCredential credential) {
-
-            }
-
-            @Override
-            public void onVerificationFailed(FirebaseException e) {
-                Toast.makeText(CustomerRegister.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCodeSent(@NonNull String verificationId,
-                                   @NonNull PhoneAuthProvider.ForceResendingToken token) {
-
-
-
-                Double random=10000000*Math.random();
-                Integer ran=random.intValue();
-                String AccountNo=String.valueOf(ran);
-                AccNo.setText(AccountNo);
-
-                String pin=Pin.getText().toString();
-                String name=Name.getText().toString();
-                String dateofbirth=DateOfBirth.getText().toString();
-                String mobileno=MobileNo.getText().toString();
-                String address=Address.getText().toString();
-
-                int genderid=Gender.getCheckedRadioButtonId();
-                rbutton=findViewById(genderid);
-                String gender=(String)rbutton.getText();
-                int accid2=AccType.getCheckedRadioButtonId();
-                rbutton=findViewById(accid2);
-                String acctype=(String)rbutton.getText();
-
-                String balance=String.valueOf(Balance);
-                //String balance=bal+" ৳";
-
-
-                if(AccountNo.isEmpty() || pin.isEmpty() || name.isEmpty() || dateofbirth.isEmpty() || mobileno.isEmpty() || acctype.isEmpty() || gender.isEmpty()){
-                    Toast.makeText(CustomerRegister.this,"Enter Required data",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.hasChild(AccountNo)) {
-                                Toast.makeText(CustomerRegister.this, "Account No is already registered", Toast.LENGTH_SHORT).show();
-                            } else {
-                                customer = new Customer(AccountNo, acctype, name, mobileno, pin, gender, dateofbirth, address, balance);
-                                ref.child(mobileno).setValue(customer);
-                                Toast.makeText(CustomerRegister.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-
-
-                Intent intent=new Intent(CustomerRegister.this,CustomerOTPsend.class);
-                intent.putExtra("phone",binding.mobile.getText().toString().trim());
-                intent.putExtra("verificationId",verificationId);
-                startActivity(intent);
-            }
-        };
-        PhoneAuthOptions options =
-                PhoneAuthOptions.newBuilder(auth)
-                        .setPhoneNumber("+880"+binding.mobile.getText().toString().trim())       // Phone number to verify
-                        .setTimeout(120L, TimeUnit.SECONDS) // Timeout and unit
-                        .setActivity(this)                 // Activity (for callback binding)
-                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
-                        .build();
-        PhoneAuthProvider.verifyPhoneNumber(options);
     }
 }

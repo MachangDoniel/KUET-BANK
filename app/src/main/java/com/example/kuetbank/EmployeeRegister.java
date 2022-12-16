@@ -71,85 +71,6 @@ public class EmployeeRegister extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 usersignup();
-                String AccountID = AccID.getText().toString();
-                String pass = Pass.getText().toString();
-                String micr = Micr.getText().toString();
-                String name = Name.getText().toString();
-                String email = Email.getText().toString();
-                String dateofbirth = DateOfBirth.getText().toString();
-                String nationality = Nationality.getText().toString();
-                String mobileno = MobileNo.getText().toString();
-                String address = Address.getText().toString();
-
-                String securityq = SecurityQ.getText().toString();
-                String answer = Answer.getText().toString();
-
-                int genderid = Gender.getCheckedRadioButtonId();
-                rbutton = findViewById(genderid);
-                String gender = (String) rbutton.getText();
-                int accid2 = AccType.getCheckedRadioButtonId();
-                rbutton = findViewById(accid2);
-                String acctype = (String) rbutton.getText();
-
-                String balance = String.valueOf(Balance);
-
-                //String balance=bal+" ৳";
-
-
-                if (AccountID.isEmpty() || micr.isEmpty() || pass.isEmpty() || name.isEmpty() || email.isEmpty() || dateofbirth.isEmpty() || nationality.isEmpty() || mobileno.isEmpty() || address.isEmpty() || acctype.isEmpty() || gender.isEmpty()) {
-                    Toast.makeText(EmployeeRegister.this, "Enter data", Toast.LENGTH_SHORT).show();
-                } else {
-                    dataBaseReference.child("employee").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            //if(snapshot.hasChild(AccountNo)){
-                            //Toast.makeText(MainActivity3.this,"Account No is already registered",Toast.LENGTH_SHORT).show();
-                            //}
-                            //else{
-                            /*
-                            dataBaseReference.child("employee").child(email).child("Account ID").setValue(AccountID);
-                            dataBaseReference.child("employee").child(email).child("MICR").setValue(micr);
-                            dataBaseReference.child("employee").child(email).child("Pass").setValue(pass);
-                            dataBaseReference.child("employee").child(email).child("Name").setValue(name);
-                            dataBaseReference.child("employee").child(email).child("Email").setValue(email);
-                            dataBaseReference.child("employee").child(email).child("Date of Birth").setValue(dateofbirth);
-                            dataBaseReference.child("employee").child(email).child("Nationality").setValue(nationality);
-                            dataBaseReference.child("employee").child(email).child("Mobile No").setValue(mobileno);
-                            dataBaseReference.child("employee").child(email).child("Address").setValue(address);
-
-                            dataBaseReference.child("employee").child(email).child("Gender").setValue(gender);
-                            dataBaseReference.child("employee").child(email).child("Account Type").setValue(acctype);
-
-                            dataBaseReference.child("employee").child(email).child("Balance").setValue(balance);
-                             */
-
-                            /*
-                            dataBaseReference.child("employee").child(AccountID).child("Account ID").setValue(AccountID);
-                            dataBaseReference.child("employee").child(AccountID).child("MICR").setValue(micr);
-                            dataBaseReference.child("employee").child(AccountID).child("Pass").setValue(pass);
-                            dataBaseReference.child("employee").child(AccountID).child("Name").setValue(name);
-                            dataBaseReference.child("employee").child(AccountID).child("Email").setValue(email);
-                            dataBaseReference.child("employee").child(AccountID).child("Date of Birth").setValue(dateofbirth);
-                            dataBaseReference.child("employee").child(AccountID).child("Nationality").setValue(nationality);
-                            dataBaseReference.child("employee").child(AccountID).child("Mobile No").setValue(mobileno);
-                            dataBaseReference.child("employee").child(AccountID).child("Address").setValue(address);
-
-                            dataBaseReference.child("employee").child(AccountID).child("Gender").setValue(gender);
-                            dataBaseReference.child("employee").child(AccountID).child("Account Type").setValue(acctype);
-
-                            dataBaseReference.child("employee").child(AccountID).child("Balance").setValue(balance);
-                            */
-
-                            //Toast.makeText(EmployeeRegister.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-
             }
         });
     }
@@ -157,16 +78,11 @@ public class EmployeeRegister extends AppCompatActivity {
     private void usersignup() {
         String AccountID = AccID.getText().toString();
         String pass = Pass.getText().toString();
-        String micr = Micr.getText().toString();
         String name = Name.getText().toString();
         String email = Email.getText().toString();
         String dateofbirth = DateOfBirth.getText().toString();
-        String nationality = Nationality.getText().toString();
         String mobileno = MobileNo.getText().toString();
         String address = Address.getText().toString();
-
-        String securityq = SecurityQ.getText().toString();
-        String answer = Answer.getText().toString();
 
         int genderid = Gender.getCheckedRadioButtonId();
         rbutton = findViewById(genderid);
@@ -175,7 +91,6 @@ public class EmployeeRegister extends AppCompatActivity {
         rbutton = findViewById(accid2);
         String acctype = (String) rbutton.getText();
 
-        String balance = String.valueOf(Balance);
         if(email.isEmpty()){
             //Toast.makeText(this, "Enter Email", Toast.LENGTH_SHORT).show();
             Email.setError("Enter Email");

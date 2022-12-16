@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent2 = new Intent(MainActivity.this, CustomerRegister.class);
-                startActivity(intent2);
+                Intent intent = new Intent(MainActivity.this, CustomerRegister.class);
+                startActivity(intent);
             }
         });
     }

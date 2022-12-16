@@ -15,6 +15,13 @@
         android:theme="@style/Theme.KUETBANK"
         tools:targetApi="31">
         <activity
+            android:name=".CustomerOTPverify"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".CustomerOTPsend"
             android:exported="false">
             <meta-data
