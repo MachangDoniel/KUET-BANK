@@ -28,9 +28,9 @@ import com.google.firebase.database.ValueEventListener;
 public class EmployeeRegister extends AppCompatActivity {
 
     DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://kuet-bank-default-rtdb.firebaseio.com");
-    private EditText Pass, Name, DateOfBirth, Nationality, MobileNo, SecurityQ, Answer, Email, Address;
+    private EditText Pass, Pass2, Name, DateOfBirth, MobileNo, Email, Address;
     private Button Next;
-    private TextView AccID, Micr;
+    private TextView AccID;
     private RadioGroup Gender, AccType;
     private RadioButton rbutton;
     private Double Balance = 0D;
@@ -42,16 +42,13 @@ public class EmployeeRegister extends AppCompatActivity {
         setContentView(R.layout.activity_employee_register);
 
         AccID = findViewById(R.id.accountno);
-        Pass = findViewById(R.id.pass);
-        Micr = findViewById(R.id.micr);
+        Pass = findViewById(R.id.password);
+        Pass2= findViewById(R.id.password2);
         Email = findViewById(R.id.email);
         Name = findViewById(R.id.name);
-        DateOfBirth = findViewById(R.id.dateofbirth);
-        Nationality = findViewById(R.id.nationality);
+        DateOfBirth = findViewById(R.id.dob);
         MobileNo = findViewById(R.id.mobile);
         Address = findViewById(R.id.address);
-        SecurityQ = findViewById(R.id.security);
-        Answer = findViewById(R.id.answer);
         Gender = findViewById(R.id.gender);
         AccType = findViewById(R.id.accounttype);
         mauth = FirebaseAuth.getInstance();
@@ -63,7 +60,6 @@ public class EmployeeRegister extends AppCompatActivity {
         String AccountNo = String.valueOf(ran);
         String MicrNo = String.valueOf(ran2);
         AccID.setText(AccountNo);
-        Micr.setText(MicrNo);
 
 
         Next = (Button) findViewById(R.id.next);
@@ -78,6 +74,7 @@ public class EmployeeRegister extends AppCompatActivity {
     private void usersignup() {
         String AccountID = AccID.getText().toString();
         String pass = Pass.getText().toString();
+        String pass2=Pass.getText().toString();
         String name = Name.getText().toString();
         String email = Email.getText().toString();
         String dateofbirth = DateOfBirth.getText().toString();
@@ -113,6 +110,12 @@ public class EmployeeRegister extends AppCompatActivity {
             //Toast.makeText(this, "Enter Password", Toast.LENGTH_SHORT).show();
             Pass.setError("Minimum password length must be 6 character");
             Pass.requestFocus();
+            return;
+        }
+        if(!pass2.equals(pass)){
+            //Toast.makeText(this, "Enter Password", Toast.LENGTH_SHORT).show();
+            Pass2.setError("Password doesn't match");
+            Pass2.requestFocus();
             return;
         }
         mauth.createUserWithEmailAndPassword(email,pass)

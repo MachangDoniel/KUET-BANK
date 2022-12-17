@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CustomerOTPverify">
+    tools:context=".CustomerOTPverify"
+    android:background="@drawable/lightbackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,14 +34,25 @@
             android:text="We sent an OTP to your Phone, Enter it to go forward"
             android:textStyle="italic" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+880"
+            android:textSize="20dp"
+            android:textStyle="italic"/>
         <TextView
             android:id="@+id/mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:text="01234567890"
             android:textSize="20dp"
             android:textStyle="italic" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -48,11 +60,12 @@
             android:layout_marginTop="10dp">
 
             <EditText
-                android:id="@+id/otp1"
+                android:id="@+id/etC1"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:background="@drawable/bg_rounded"
                 android:ems="10"
                 android:hint="*"
                 android:textSize="25dp"
@@ -60,11 +73,25 @@
                 android:inputType="number" />
 
             <EditText
-                android:id="@+id/otp2"
+                android:id="@+id/etC2"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:ems="10"
+                android:hint="*"
+                android:background="@drawable/bg_rounded"
+                android:textSize="25dp"
+                android:gravity="center"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/etC3"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/bg_rounded"
                 android:ems="10"
                 android:hint="*"
                 android:textSize="25dp"
@@ -72,7 +99,7 @@
                 android:inputType="number" />
 
             <EditText
-                android:id="@+id/otp3"
+                android:id="@+id/etC4"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -80,11 +107,12 @@
                 android:ems="10"
                 android:hint="*"
                 android:textSize="25dp"
+                android:background="@drawable/bg_rounded"
                 android:gravity="center"
                 android:inputType="number" />
 
             <EditText
-                android:id="@+id/otp4"
+                android:id="@+id/etC5"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -92,11 +120,12 @@
                 android:ems="10"
                 android:hint="*"
                 android:textSize="25dp"
+                android:background="@drawable/bg_rounded"
                 android:gravity="center"
                 android:inputType="number" />
 
             <EditText
-                android:id="@+id/otp5"
+                android:id="@+id/etC6"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -104,18 +133,7 @@
                 android:ems="10"
                 android:hint="*"
                 android:textSize="25dp"
-                android:gravity="center"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/otp6"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:ems="10"
-                android:hint="*"
-                android:textSize="25dp"
+                android:background="@drawable/bg_rounded"
                 android:gravity="center"
                 android:inputType="number" />
         </LinearLayout>

@@ -11,101 +11,120 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="100dp"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp">
+        android:gravity="center"
+        android:orientation="vertical">
+
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_gravity="end"
             android:background="@color/newcolor"
             android:onClick="showPopup"
             android:scaleType="fitCenter"
-            android:layout_gravity="end"
             app:srcCompat="@drawable/ic_add" />
-    <TextView
-        android:id="@+id/textView4"
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome"
+            android:textColor="@color/newcolor"
+            android:textSize="45dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bc_rounded"
+            android:textColor="@color/newcolor">
+
+            <EditText
+                android:id="@+id/code"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:drawableLeft="@drawable/ic_phone"
+                android:inputType="number"
+
+                android:text="+880"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="  Phone No"
+                android:inputType="number"
+                android:textColor="@color/newcolor"
+                android:textSize="20dp" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/pin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bc_rounded"
+            android:drawableLeft="@drawable/ic_security"
+            android:hint="  Pin"
+            android:inputType="numberPassword"
+            android:textColor="@color/newcolor"
+            android:textSize="20dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_rounded"
+            android:text="Login"
+            android:textColor="@color/white"
+            app:cornerRadius="10dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/forgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_rounded"
+            android:backgroundTint="@color/white"
+            android:text="Forgotten Password"
+            app:cornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.525"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.727" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_rounded"
+            android:backgroundTint="@color/green"
+            android:text="Create New Account"
+            android:textColor="@color/white"
+            app:cornerRadius="10dp" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome"
-        android:textColor="@color/newcolor"
-        android:textSize="45dp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/phone"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="  Phone No"
-        android:background="@drawable/bc_rounded"
-        android:textColor="@color/newcolor"
-        android:drawableLeft="@drawable/ic_phone"
-
-        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
-
-    <EditText
-        android:id="@+id/pin"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:hint="  Pin"
-        android:background="@drawable/bc_rounded"
-        android:textColor="@color/newcolor"
-        android:drawableLeft="@drawable/ic_security"
-        android:textSize="20dp"
-        android:layout_marginBottom="20dp"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/login"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded"
-        android:text="Login"
-        android:textColor="@color/white"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.653"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/forgot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded"
-        android:backgroundTint="@color/white"
-        android:text="Forgotten Password"
-        app:cornerRadius="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.525"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.727" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_rounded"
-        android:backgroundTint="@color/green"
-        android:text="Create New Account"
-        android:textColor="@color/white"
-        app:cornerRadius="10dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"/>
-    </LinearLayout>
+        android:visibility="invisible"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

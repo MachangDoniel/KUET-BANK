@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,10 +32,10 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-
-
+    String Balance;
     ImageView home,profile,transfer,payment,withdraw,loan,notification;
-    TextView home2,profile2,transfer2,payment2,withdraw2,loan2,notification2;
+    TextView home2,profile2,transfer2,payment2,withdraw2,loan2,notification2,balance,check;
+    int count=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,8 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
         drawerLayout=findViewById(R.id.drawer_layout);
         navigationView=findViewById(R.id.nav_view2);
         toolbar=findViewById(R.id.toolbar);
+        check=findViewById(R.id.check);
+        balance=findViewById(R.id.balance);
 
         setSupportActionBar(toolbar);
 
@@ -51,7 +54,6 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
 
         ref= FirebaseDatabase.getInstance().getReference().child("Customer");
 
@@ -62,6 +64,7 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
                 if(snapshot.hasChild(ACC)){
                     //String getName=snapshot.child(ACC).child("Name").getValue(String.class);
                     String getName=snapshot.child(ACC).child("name").getValue().toString();
+                    Balance=snapshot.child(ACC).child("balance").getValue().toString();
                     //t1.setText(getName);
                 }
                 else{
@@ -94,6 +97,22 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+        check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(count%2==0) {
+                    balance.setText(Balance+" ৳");
+                    check.setText("Hide Balance");
+                    count++;
+                }
+                else{
+                    balance.setText("৳");
+                    check.setText("Show Balance");
+                    count++;
+                }
+            }
+        });
     }
 
     @Override
@@ -121,6 +140,11 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_transfer:
                 intent=new Intent(CustomerHome.this,CustomerTransfer.class);
+                intent.putExtra("accountno",ACC);
+                startActivity(intent);
+                break;
+            case R.id.nav_signout:
+                intent=new Intent(CustomerHome.this,MainActivity.class);
                 intent.putExtra("accountno",ACC);
                 startActivity(intent);
                 break;

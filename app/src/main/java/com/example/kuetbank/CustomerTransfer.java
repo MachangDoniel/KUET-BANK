@@ -23,62 +23,16 @@ public class CustomerTransfer extends AppCompatActivity {
     private TextView t1,t2,name;
     private EditText accountno,amount,pin;
     Button balance,profile,transfer,payment,loan,search,send;
+    String ACC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_transfer);
 
         ref=FirebaseDatabase.getInstance().getReference("Customer");
-        t1=findViewById(R.id.uname);
-        t2=findViewById(R.id.showbalance);
-        Bundle b1=getIntent().getExtras();
+
         int Balance=0,count=0;
-        String ACC=getIntent().getStringExtra("accountno");
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild(ACC)){
-                    //String getName=snapshot.child(ACC).child("name").getValue(String.class);
-                    String getName=snapshot.child(ACC).child("name").getValue().toString();
-                    t1.setText(getName);
-                }
-                else{
-                    Toast.makeText(CustomerTransfer.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-        balance=findViewById(R.id.balance);
-        balance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.hasChild(ACC)){
-                            //String getBalance=snapshot.child(ACC).child("balance").getValue(String.class);
-                            String getBalance=snapshot.child(ACC).child("balance").getValue().toString();
-                            String s=getBalance+" ৳";
-                            t2.setText(s);
-                        }
-                        else{
-                            Toast.makeText(CustomerTransfer.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
-        });
+        ACC=getIntent().getStringExtra("accountno");
 
         accountno=findViewById(R.id.accno);
         amount=findViewById(R.id.amount);
@@ -92,10 +46,16 @@ public class CustomerTransfer extends AppCompatActivity {
             public void onClick(View view) {
                 String AccountNo=accountno.getText().toString();
                 if(AccountNo.isEmpty()){
-                    Toast.makeText(CustomerTransfer.this,"Enter Account No",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(CustomerTransfer.this,"Enter Receiver's Account No",Toast.LENGTH_SHORT).show();
+                    accountno.setError("Enter Receiver's Account No");
+                    accountno.requestFocus();
+                    return;
                 }
                 else if(AccountNo.equals(ACC)){
-                    Toast.makeText(CustomerTransfer.this,"You can't transfer money to your Own Account",Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(CustomerTransfer.this,"You can't transfer money to your Own Account",Toast.LENGTH_SHORT).show();
+                    accountno.setError("You can't transfer money to your Own Account");
+                    accountno.requestFocus();
+                    return;
                 }
                 else{
                     ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -108,7 +68,10 @@ public class CustomerTransfer extends AppCompatActivity {
                                 Toast.makeText(CustomerTransfer.this,"Enter Amount and PIN",Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                Toast.makeText(CustomerTransfer.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(CustomerTransfer.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
+                                accountno.setError("Account No doesn't exists");
+                                accountno.requestFocus();
+                                return;
                             }
                         }
 
@@ -126,9 +89,19 @@ public class CustomerTransfer extends AppCompatActivity {
                                     if(snapshot.hasChild(AccountNo)){
                                         double Amount=Double.valueOf(amount.getText().toString());
                                         String Pin=pin.getText().toString();
-                                        if(String.valueOf(Amount).isEmpty() || Pin.isEmpty()){
-                                            Toast.makeText(CustomerTransfer.this,"Enter Amount and PIN",Toast.LENGTH_SHORT).show();
+                                        if(String.valueOf(Amount).isEmpty()){
+                                            amount.setError("Enter Amount");
+                                            amount.requestFocus();
+                                            return;
                                         }
+                                        else if(Pin.isEmpty()){
+                                            pin.setError("Enter PIN");
+                                            pin.requestFocus();
+                                            return;
+                                        }
+                                        //if(String.valueOf(Amount).isEmpty() || Pin.isEmpty()){
+                                        //    Toast.makeText(CustomerTransfer.this,"Enter Amount and PIN",Toast.LENGTH_SHORT).show();
+                                        //}
                                         //else if(Pin.equals(snapshot.child(ACC).child("Pin").getValue(String.class))){
                                         else if(Pin.equals(snapshot.child(ACC).child("pass").getValue().toString())){
                                             //Toast.makeText(CustomerTransfer.this,"Right Pin",Toast.LENGTH_SHORT).show();
@@ -146,12 +119,15 @@ public class CustomerTransfer extends AppCompatActivity {
                                                 String Balance2=String.valueOf(getBalance2);
                                                 ref.child(AccountNo).child("balance").setValue(Balance2);
                                                 Toast.makeText(CustomerTransfer.this,"Transaction Successfull",Toast.LENGTH_SHORT).show();
-                                                Intent intent=new Intent(CustomerTransfer.this,CustomerProfile.class);
+                                                Intent intent=new Intent(CustomerTransfer.this,CustomerHome.class);
                                                 intent.putExtra("accountno",ACC);
                                                 startActivity(intent);
                                             }
                                             else{
                                                 Toast.makeText(CustomerTransfer.this,"Balance Shortage",Toast.LENGTH_SHORT).show();
+                                                    amount.setError("Reduce Ammount");
+                                                    amount.requestFocus();
+                                                    return;
                                             }
                                         }
                                         else {
@@ -159,7 +135,10 @@ public class CustomerTransfer extends AppCompatActivity {
                                         }
                                     }
                                     else{
-                                        Toast.makeText(CustomerTransfer.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(CustomerTransfer.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
+                                        accountno.setError("Account No doesn't exists");
+                                        accountno.requestFocus();
+                                        return;
                                     }
                                 }
 
@@ -174,5 +153,10 @@ public class CustomerTransfer extends AppCompatActivity {
             }
         });
 
+    }
+    public void onBackPressed(){
+        Intent intent=new Intent(CustomerTransfer.this,CustomerHome.class);
+        intent.putExtra("accountno",ACC);
+        startActivity(intent);
     }
 }

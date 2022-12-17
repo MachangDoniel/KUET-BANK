@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,50 +19,44 @@ import com.google.firebase.database.ValueEventListener;
 
 public class EditCustomerProfile extends AppCompatActivity {
 
-    DatabaseReference ref,dataBaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://kuet-bank-default-rtdb.firebaseio.com");
-    private TextView t1,t2,name,dob,gender,nationality,accountno,email,mobileno,address;
-    Button balance,profile,transfer,payment,loan,save;
+    DatabaseReference ref;
+    private EditText name,dob,gender,mobileno,address;
+    TextView accountno,Accounttype;
+    Button save;
+    String ACC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_customer_profile);
 
-        ref=FirebaseDatabase.getInstance().getReference("Customer");
-        t1=findViewById(R.id.uname);
-        t2=findViewById(R.id.showbalance);
+        ref= FirebaseDatabase.getInstance().getReference("Customer");
         name=findViewById(R.id.name);
         dob=findViewById(R.id.dob);
         gender=findViewById(R.id.gender);
-        nationality=findViewById(R.id.nationality);
         accountno=findViewById(R.id.accountno);
-        email=findViewById(R.id.email);
-        mobileno=findViewById(R.id.mobile);
+        mobileno=findViewById(R.id.mobileno);
         address=findViewById(R.id.address);
+        Accounttype=findViewById(R.id.accounttype);
+        save=findViewById(R.id.save);
+        ACC=getIntent().getStringExtra("accountno");
+        mobileno.setText(ACC);
 
-        String ACC=getIntent().getStringExtra("accountno");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(ACC)){
                     //String getName=snapshot.child(ACC).child("name").getValue(String.class);
                     String getName=snapshot.child(ACC).child("name").getValue().toString();
-                    t1.setText(getName);
                     name.setText(getName);
+                    //String getName=snapshot.child(ACC).child("name").getValue(String.class);
+                    String getacctype=snapshot.child(ACC).child("accounttype").getValue().toString();
+                    Accounttype.setText(getacctype);
                     //String getdob=snapshot.child(ACC).child("dob").getValue(String.class);
                     String getdob=snapshot.child(ACC).child("dob").getValue().toString();
                     dob.setText(getdob);
                     //String getgen=snapshot.child(ACC).child("gender").getValue(String.class);
                     String getgen=snapshot.child(ACC).child("gender").getValue().toString();
                     gender.setText(getgen);
-                    //String getaccno=snapshot.child(ACC).child("accountno").getValue(String.class);
-                    String getaccno=snapshot.child(ACC).child("accountno").getValue().toString();
-                    accountno.setText(getaccno);
-                    //String getemail=snapshot.child(ACC).child("email").getValue(String.class);
-                    String getemail=snapshot.child(ACC).child("email").getValue().toString();
-                    email.setText(getemail);
-                    //String getmob=snapshot.child(ACC).child("mobile").getValue(String.class);
-                    String getmob=snapshot.child(ACC).child("mobile").getValue().toString();
-                    mobileno.setText(getmob);
                     //String getadd=snapshot.child(ACC).child("address").getValue(String.class);
                     String getadd=snapshot.child(ACC).child("address").getValue().toString();
                     address.setText(getadd);
@@ -70,14 +65,12 @@ public class EditCustomerProfile extends AppCompatActivity {
                     Toast.makeText(EditCustomerProfile.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
 
-        save=findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,10 +80,6 @@ public class EditCustomerProfile extends AppCompatActivity {
                 ref.child(ACC).child("dob").setValue(Dob);
                 String Gender=gender.getText().toString();
                 ref.child(ACC).child("gender").setValue(Gender);
-                String AccountNo=accountno.getText().toString();
-                ref.child(ACC).child("accountno").setValue(AccountNo);
-                String Email=email.getText().toString();
-                ref.child(ACC).child("email").setValue(Email);
                 String MobileNo=mobileno.getText().toString();
                 ref.child(ACC).child("mobile").setValue(MobileNo);
                 String Address=address.getText().toString();
@@ -99,10 +88,13 @@ public class EditCustomerProfile extends AppCompatActivity {
                 Intent intent=new Intent(EditCustomerProfile.this,CustomerProfile.class);
                 intent.putExtra("accountno",ACC);
                 startActivity(intent);
+                finish();
             }
         });
     }
     public void onBackPressed(){
-        startActivity(new Intent(EditCustomerProfile.this,CustomerProfile.class));
+        Intent intent=new Intent(EditCustomerProfile.this,CustomerProfile.class);
+        intent.putExtra("accountno",ACC);
+        startActivity(intent);
     }
 }

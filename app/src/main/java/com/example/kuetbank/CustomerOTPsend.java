@@ -76,16 +76,16 @@ public class CustomerOTPsend extends AppCompatActivity {
 
             @Override
             public void onVerificationFailed(FirebaseException e) {
-                binding.progressBar.setVisibility(View.GONE);
-                binding.send.setVisibility(View.VISIBLE);
+                //binding.progressBar.setVisibility(View.GONE);
+                //binding.send.setVisibility(View.VISIBLE);
                 Toast.makeText(CustomerOTPsend.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onCodeSent(@NonNull String verificationId,
                                    @NonNull PhoneAuthProvider.ForceResendingToken token) {
-                binding.progressBar.setVisibility(View.GONE);
-                binding.send.setVisibility(View.VISIBLE);
+                //binding.progressBar.setVisibility(View.GONE);
+                //binding.send.setVisibility(View.VISIBLE);
                 Toast.makeText(CustomerOTPsend.this, "OTP is successfully send.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CustomerOTPsend.this, CustomerOTPverify.class);
                 intent.putExtra("phone", Mobile.getText().toString().trim());
@@ -96,7 +96,7 @@ public class CustomerOTPsend extends AppCompatActivity {
 
         PhoneAuthOptions options =
                 PhoneAuthOptions.newBuilder(mAuth)
-                        .setPhoneNumber("+880" + binding.mobile.getText().toString().trim())
+                        .setPhoneNumber("+880" + Mobile.getText().toString().trim())
                         .setTimeout(60L, TimeUnit.SECONDS)
                         .setActivity(this)
                         .setCallbacks(mCallbacks)

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
-    android:background="@drawable/lightbackground2"
+    android:background="@drawable/lightbackground"
     tools:context=".CustomerHome"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
@@ -16,7 +16,7 @@
         android:id="@+id/nav_view2"
         app:headerLayout="@layout/headercustomer"
         app:menu="@menu/main_menu_customer"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,13 +31,36 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="30dp"
+            android:orientation="vertical">
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="৳"
+            android:textSize="18dp"
+            android:background="@drawable/bc_rounded"/>
+            <TextView
+                android:id="@+id/check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Check Balance"
+                android:textSize="18dp"
+                android:background="@drawable/bg_rounded"/>
+        </LinearLayout>
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:rowCount="4"
             android:columnCount="2"
-            android:layout_marginTop="200dp"
+            android:layout_marginTop="50dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:layout_marginBottom="50dp">

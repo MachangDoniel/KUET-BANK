@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CustomerRegister extends AppCompatActivity {
 
-    DatabaseReference ref;
+    DatabaseReference ref,databaseReference=FirebaseDatabase.getInstance().getReferenceFromUrl("https://kuet-bank-default-rtdb.firebaseio.com");
     EditText Pin, Name, DateOfBirth, MobileNo, Address;
     Button Next;
     TextView AccNo;
@@ -46,7 +46,7 @@ public class CustomerRegister extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
-    String mobileno;
+    String mobileno,AccountNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class CustomerRegister extends AppCompatActivity {
         Double random2 = 10000 * Math.random();
         Integer ran = random.intValue();
         Integer ran2 = random2.intValue();
-        String AccountNo = String.valueOf(ran);
+        AccountNo = String.valueOf(ran);
         AccNo.setText(AccountNo);
 
 
@@ -86,7 +86,6 @@ public class CustomerRegister extends AppCompatActivity {
 
     private void employeesignup() {
         //ref=FirebaseDatabase.getInstance().getReference("Customer");
-        String AccountNo = AccNo.getText().toString();
         String pin = Pin.getText().toString();
         String name = Name.getText().toString();
         String dateofbirth = DateOfBirth.getText().toString();
@@ -146,23 +145,56 @@ public class CustomerRegister extends AppCompatActivity {
         }
         else
         {
-            Customer customer=new Customer(AccountNo,acctype,name,mobileno,pin,gender,dateofbirth,address,balance);
-            FirebaseDatabase.getInstance().getReference("Customer").child(mobileno).setValue(customer).addOnCompleteListener(new OnCompleteListener<Void>() {
+            databaseReference.child("Extra").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(CustomerRegister.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(CustomerRegister.this,CustomerOTPsend.class);
-                        intent.putExtra("phone",mobileno);
-                        startActivity(intent);
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.hasChild(mobileno)){
+                        MobileNo.setError("Already Registered With this Mobile No");
+                        MobileNo.requestFocus();
+                        return;
                     }
-                    else {
-                        Toast.makeText(CustomerRegister.this, "Failed to register"+task.getException(), Toast.LENGTH_SHORT).show();
+                    else{
+                        Customer customer=new Customer(AccountNo,acctype,name,mobileno,pin,gender,dateofbirth,address,balance);
+                        FirebaseDatabase.getInstance().getReference("Customer").child(AccountNo).setValue(customer).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    phonetoaccountno();
+                                    Toast.makeText(CustomerRegister.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                                    Intent intent=new Intent(CustomerRegister.this,CustomerOTPsend.class);
+                                    intent.putExtra("phone",mobileno);
+                                    startActivity(intent);
+                                }
+                                else {
+                                    Toast.makeText(CustomerRegister.this, "Failed to register"+task.getException(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
                 }
             });
         }
     }
+
+    private void phonetoaccountno() {
+        databaseReference.child("Extra").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                databaseReference.child("Extra").child(mobileno).child("Account No").setValue(AccountNo);
+                Toast.makeText(CustomerRegister.this,"Registered Successfully",Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public void onBackPressed(){
         startActivity(new Intent(CustomerRegister.this,MainActivity.class));
     }

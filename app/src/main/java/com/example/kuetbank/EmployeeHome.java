@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class EmployeeHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -58,7 +60,9 @@ public class EmployeeHome extends AppCompatActivity implements NavigationView.On
         customerlist=findViewById(R.id.clist);
         customerlist2=findViewById(R.id.clist2);
 
-        String email=getIntent().getStringExtra("email");
+        //String email=getIntent().getStringExtra("email");
+        FirebaseUser emp = FirebaseAuth.getInstance().getCurrentUser();
+        String email=emp.getUid();
 
         home.setOnClickListener(new View.OnClickListener() {
             @Override

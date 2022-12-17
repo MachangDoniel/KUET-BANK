@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/kbbackground"
+    android:background="@drawable/lightbackground"
     tools:context=".CustomerRegister">
 
 
@@ -16,6 +16,7 @@
             android:text="Registration"
             android:textColor="@color/newcolor"
             android:textSize="40dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -64,7 +65,7 @@
                     android:background="@drawable/bc_rounded"
                     android:drawableLeft="@drawable/ic_name"
                     android:hint="  Name"
-
+                    android:inputType="text"
                     android:textColor="@color/newcolor"
                     android:textSize="20dp" />
 
@@ -90,7 +91,7 @@
                             android:drawableLeft="@drawable/ic_phone"
                             android:text="  +880"
                             android:textColor="@color/newcolor"
-
+                            android:inputType="number"
                             android:textSize="20dp" />
 
                         <EditText
@@ -99,7 +100,7 @@
                             android:layout_height="50dp"
                             android:hint="  Phone Number"
                             android:textColor="@color/newcolor"
-
+                            android:inputType="number"
                             android:textSize="20dp" />
                 </LinearLayout>
 
@@ -118,7 +119,7 @@
                     android:background="@drawable/bc_rounded"
                     android:drawableLeft="@drawable/ic_security"
                     android:hint="  Pin"
-
+                    android:inputType="number"
                     android:textColor="@color/newcolor"
                     android:textSize="20dp" />
 
