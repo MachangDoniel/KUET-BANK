@@ -64,17 +64,23 @@
                 android:textSize="20dp" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/pin"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/bc_rounded"
-            android:drawableLeft="@drawable/ic_security"
-            android:hint="  Pin"
-            android:inputType="numberPassword"
-            android:textColor="@color/newcolor"
-            android:textSize="20dp" />
+            android:background="@drawable/bc_rounded">
+
+            <EditText
+                android:id="@+id/pin"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:drawableLeft="@drawable/ic_security"
+                android:hint="  Pin"
+                android:inputType="numberPassword"
+                android:textColor="@color/newcolor"
+                android:textSize="20dp" />
+
+        </LinearLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/login"
@@ -93,7 +99,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_rounded"
             android:backgroundTint="@color/white"
-            android:text="Forgotten Password"
+            android:text="Forgotten Pin"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

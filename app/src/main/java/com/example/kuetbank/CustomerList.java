@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +26,7 @@ public class CustomerList extends AppCompatActivity implements SelectListener {
     DatabaseReference database;
     MyAdapter myAdapter;
     ArrayList<Customer>list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class CustomerList extends AppCompatActivity implements SelectListener {
         startActivity(intent);
     }
     public void onBackPressed(){
-        startActivity(new Intent(CustomerList.this,EmployeeHome.class));
+        Intent intent=new Intent(CustomerList.this,EmployeeHome.class);
+        startActivity(intent);
     }
 }

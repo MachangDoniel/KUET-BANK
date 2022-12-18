@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 public class EmployeeOnCustomer extends AppCompatActivity {
 
     DatabaseReference ref,dataBaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://kuet-bank-default-rtdb.firebaseio.com");
-    TextView Accountno,accounttype,name,mobile,email,gender,dob,address,balance;
+    TextView Accountno,accounttype,name,mobile,gender,dob,address,balance;
     Customer customer;
     String userId;
     Button edit;
@@ -36,7 +36,6 @@ public class EmployeeOnCustomer extends AppCompatActivity {
         accounttype=findViewById(R.id.accounttype);
         name=findViewById(R.id.name);
         mobile=findViewById(R.id.mobileno);
-        email=findViewById(R.id.email);
         gender=findViewById(R.id.gender);
         dob=findViewById(R.id.dob);
         address=findViewById(R.id.address);
@@ -64,9 +63,6 @@ public class EmployeeOnCustomer extends AppCompatActivity {
                     Accountno.setText(getaccno);
                     String getemp=snapshot.child(ACC).child("accounttype").getValue().toString();
                     accounttype.setText(getemp);
-                    //String getemail=snapshot.child(ACC).child("email").getValue(String.class);
-                    String getemail=snapshot.child(ACC).child("email").getValue().toString();
-                    email.setText(getemail);
                     //String getmob=snapshot.child(ACC).child("mobile").getValue(String.class);
                     String getmob=snapshot.child(ACC).child("mobile").getValue().toString();
                     mobile.setText(getmob);
@@ -102,6 +98,7 @@ public class EmployeeOnCustomer extends AppCompatActivity {
 
     }
     public void onBackPressed(){
-        startActivity(new Intent(EmployeeOnCustomer.this,CustomerList.class));
+        Intent intent=new Intent(EmployeeOnCustomer.this,CustomerList.class);
+        startActivity(intent);
     }
 }

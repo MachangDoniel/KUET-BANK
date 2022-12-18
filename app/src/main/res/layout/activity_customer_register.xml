@@ -155,7 +155,8 @@
                     android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:weightSum="1"
+                    android:background="@drawable/bc_rounded">
 
                         <RadioButton
                             android:id="@+id/radioButton21"
@@ -207,7 +208,8 @@
                     android:layout_height="60dp"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:weightSum="1"
+                    android:background="@drawable/bc_rounded">
 
                         <RadioButton
                             android:id="@+id/radioButton"

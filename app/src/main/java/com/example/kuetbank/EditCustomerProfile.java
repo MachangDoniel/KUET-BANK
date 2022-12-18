@@ -45,6 +45,9 @@ public class EditCustomerProfile extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(ACC)){
+                    //String getaccno=snapshot.child(ACC).child("accountno").getValue(String.class);
+                    String getaccno=snapshot.child(ACC).child("accountno").getValue().toString();
+                    accountno.setText(getaccno);
                     //String getName=snapshot.child(ACC).child("name").getValue(String.class);
                     String getName=snapshot.child(ACC).child("name").getValue().toString();
                     name.setText(getName);

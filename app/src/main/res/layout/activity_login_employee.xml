@@ -62,18 +62,23 @@
                 android:textSize="20dp" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/password"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/bc_rounded"
+            android:orientation="horizontal">
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
             android:drawableLeft="@drawable/ic_security"
             android:hint="  Password"
             android:inputType="textPassword"
             android:textColor="@color/newcolor"
             android:textSize="20dp" />
 
+        </LinearLayout>
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/login"
             android:layout_width="match_parent"

@@ -3,12 +3,14 @@ package com.example.kuetbank;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
 
 public class EmployeeRegister extends AppCompatActivity {
 
@@ -41,6 +45,10 @@ public class EmployeeRegister extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_register);
 
+        Calendar calender=Calendar.getInstance();
+        final int year=calender.get(Calendar.YEAR);
+        final int month=calender.get(Calendar.MONTH);
+        final int day=calender.get(Calendar.DAY_OF_MONTH);
         AccID = findViewById(R.id.accountno);
         Pass = findViewById(R.id.password);
         Pass2= findViewById(R.id.password2);
@@ -61,6 +69,21 @@ public class EmployeeRegister extends AppCompatActivity {
         String MicrNo = String.valueOf(ran2);
         AccID.setText(AccountNo);
 
+        DateOfBirth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog=new DatePickerDialog(EmployeeRegister.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int day) {
+                        month=month+1;
+                        String date=day+"/"+month+"/"+year;
+                        DateOfBirth.setText(date);
+                    }
+                },year,month,day);
+                datePickerDialog.show();
+            }
+        });
+
 
         Next = (Button) findViewById(R.id.next);
         Next.setOnClickListener(new View.OnClickListener() {
@@ -74,12 +97,12 @@ public class EmployeeRegister extends AppCompatActivity {
     private void usersignup() {
         String AccountID = AccID.getText().toString();
         String pass = Pass.getText().toString();
-        String pass2=Pass.getText().toString();
-        String name = Name.getText().toString();
-        String email = Email.getText().toString();
+        String pass2=Pass2.getText().toString();
+        String name = Name.getText().toString().trim();
+        String email = Email.getText().toString().trim();
         String dateofbirth = DateOfBirth.getText().toString();
-        String mobileno = MobileNo.getText().toString();
-        String address = Address.getText().toString();
+        String mobileno = MobileNo.getText().toString().trim();
+        String address = Address.getText().toString().trim();
 
         int genderid = Gender.getCheckedRadioButtonId();
         rbutton = findViewById(genderid);
