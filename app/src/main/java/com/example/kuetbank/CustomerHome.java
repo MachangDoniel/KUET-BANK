@@ -144,9 +144,8 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.nav_signout:
-                intent=new Intent(CustomerHome.this,MainActivity.class);
-                intent.putExtra("accountno",ACC);
-                startActivity(intent);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(CustomerHome.this,MainActivity.class));
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);

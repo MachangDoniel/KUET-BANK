@@ -233,7 +233,7 @@
             android:id="@+id/t4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Account Type:"
+            android:text="Employee Type:"
             android:textColor="@color/purple_700" />
 
         <RadioGroup

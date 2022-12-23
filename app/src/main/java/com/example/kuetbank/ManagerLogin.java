@@ -27,7 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class LoginEmployee extends AppCompatActivity {
+public class ManagerLogin extends AppCompatActivity {
 
     Button register, login, Forgotpassword;
     EditText Email, password;
@@ -38,7 +38,7 @@ public class LoginEmployee extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_employee);
+        setContentView(R.layout.activity_manager_login);
 
         Email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -60,22 +60,17 @@ public class LoginEmployee extends AppCompatActivity {
             }
         });
 
+        /*
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(LoginEmployee.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginEmployee.this, EmployeeRegister.class);
+                Intent intent = new Intent(ManagerLogin.this, ManagerRegister.class);
                 //intent.putExtra("s", id);
                 startActivity(intent);
             }
         });
-        Forgotpassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginEmployee.this, EmployeeForgotPassword.class);
-                startActivity(intent);
-            }
-        });
+         */
     }
 
     private void userlogin() {
@@ -108,56 +103,32 @@ public class LoginEmployee extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     FirebaseUser emp = FirebaseAuth.getInstance().getCurrentUser();
-                    DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Employee");
-                    String userId;
-                    userId=emp.getUid();
-                    ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Employee profile=snapshot.getValue(Employee.class);
-
-                            if(profile!=null)
-                            {
-                                verified=profile.isverified();
-                                //verified=true;
-                            }
-                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                            if (firebaseUser.isEmailVerified() && verified) {
-                                Intent intent = new Intent(LoginEmployee.this, EmployeeHome.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                progressBar.setVisibility(View.GONE);
-                                Toast.makeText(LoginEmployee.this, "Log in Succesfull", Toast.LENGTH_SHORT).show();
-                                intent.putExtra("email", email);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else if (firebaseUser.isEmailVerified() && !verified) {
-                                progressBar.setVisibility(View.GONE);
-                                Toast.makeText(LoginEmployee.this, "You are still not seletected as Employee", Toast.LENGTH_SHORT).show();
-                                FirebaseAuth.getInstance().signOut();
-                                finish();
-                            }
-                            else {
-                                firebaseUser.sendEmailVerification();
-                                progressBar.setVisibility(View.GONE);
-                                Toast.makeText(LoginEmployee.this, "check your email to verify", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                    DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Manager");
+                    FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                    if (firebaseUser.isEmailVerified()) {
+                        Intent intent = new Intent(ManagerLogin.this, ManagerHome.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(ManagerLogin.this, "Log in Succesfull", Toast.LENGTH_SHORT).show();
+                        intent.putExtra("email", email);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        firebaseUser.sendEmailVerification();
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(ManagerLogin.this, "check your email to verify", Toast.LENGTH_SHORT).show();
+                    }
 
                 } else {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(LoginEmployee.this, "log in Unsuccessful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ManagerLogin.this, "log in Unsuccessful", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
     }
 
     public void onBackPressed(){
-        startActivity(new Intent(LoginEmployee.this,MainActivity.class));
+        startActivity(new Intent(ManagerLogin.this,MainActivity.class));
     }
 }

@@ -114,7 +114,8 @@ public class EmployeeProfileEdit extends AppCompatActivity {
                 }
                 else
                 {
-                    Employee employee = new Employee(AccountId,Emptype,Name, Mobile, Email,Pass,Gender,Dob, Address);
+                    boolean verified=true;
+                    Employee employee = new Employee(AccountId,Emptype,Name, Mobile, Email,Pass,Gender,Dob, Address,verified);
                     FirebaseDatabase.getInstance().getReference("Employee").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(employee).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

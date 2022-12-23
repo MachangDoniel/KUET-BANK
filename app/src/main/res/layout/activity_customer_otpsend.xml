@@ -30,12 +30,14 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="80dp"
             android:text="Click send to get 6 digit OTP code"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:background="@color/white"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/cc"

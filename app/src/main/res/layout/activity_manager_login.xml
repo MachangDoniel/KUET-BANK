@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/kbbackground"
-    tools:context=".LoginEmployee">
+    tools:context=".ManagerLogin">
 
 
     <LinearLayout
@@ -30,7 +30,7 @@
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="to Employee Panel"
+            android:text="to Admin Panel"
             android:textColor="@color/newcolor"
             android:textStyle="bold" />
 
@@ -58,15 +58,15 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/bc_rounded"
             android:orientation="horizontal">
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:drawableLeft="@drawable/ic_security"
-            android:hint="  Password"
-            android:inputType="textPassword"
-            android:textColor="@color/newcolor"
-            android:textSize="20dp" />
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableLeft="@drawable/ic_security"
+                android:hint="  Password"
+                android:inputType="textPassword"
+                android:textColor="@color/newcolor"
+                android:textSize="20dp" />
 
         </LinearLayout>
         <androidx.appcompat.widget.AppCompatButton
@@ -88,12 +88,7 @@
             android:backgroundTint="@color/white"
             android:text="Forgotten Password"
             app:cornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.525"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.727" />
+            android:visibility="invisible"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/register"
@@ -105,7 +100,8 @@
             android:backgroundTint="@color/green"
             android:text="Create New Account"
             android:textColor="@color/white"
-            app:cornerRadius="10dp" />
+            app:cornerRadius="10dp"
+            android:visibility="invisible"/>
     </LinearLayout>
 
     <ProgressBar

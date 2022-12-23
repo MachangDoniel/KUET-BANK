@@ -1,22 +1,13 @@
 package com.example.kuetbank;
 
-public class Employee {
-
+public class Manager {
     public  String accountid,employeetype,name,mobileno,email,pass,gender,dateofbirthh,address;
     boolean verified;
 
-    public boolean isverified() {
-        return verified;
-    }
-
-    public void setverified(boolean verified) {
-        this.verified = verified;
-    }
-
-    public Employee(){}
+    public Manager(){}
 
 
-    public Employee(String email, String pass){
+    public Manager(String email, String pass){
         this.email=email;
         this.pass=pass;
     }
@@ -93,7 +84,7 @@ public class Employee {
         this.address = address;
     }
 
-    public Employee(String accountid, String employeetype, String name, String mobileno, String email, String pass, String gender, String dateofbirthh, String address,boolean verified) {
+    public Manager(String accountid, String employeetype, String name, String mobileno, String email, String pass, String gender, String dateofbirthh, String address,boolean verified) {
         this.accountid = accountid;
         this.employeetype = employeetype;
         this.name = name;

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     EditText Phone,Pin;
     Button login,register,forgot;
     String ACC;
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,17 +40,21 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         Phone =  findViewById(R.id.phone);
         Pin =  findViewById(R.id.pin);
         login = findViewById(R.id.login);
+        progressBar=findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
         //String ACC = "1907121", PIN = "121";
         //1907121 & 121
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 String mobile = Phone.getText().toString();
                 String PIN = Pin.getText().toString();
                 if (mobile.isEmpty()) {
                     //Toast.makeText(MainActivity.this, "Enter Account No and Pin", Toast.LENGTH_SHORT).show();
                     Phone.setError("Enter Phone No");
                     Phone.requestFocus();
+                    progressBar.setVisibility(View.INVISIBLE);
                     return;
                 }
                 /*
@@ -56,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     //Toast.makeText(MainActivity.this, "Enter Account No and Pin", Toast.LENGTH_SHORT).show();
                     Phone.setError("Enter Valid Phone Number");
                     Phone.requestFocus();
+                    progressBar.setVisibility(View.INVISIBLE);
                     return;
                 }
                  */
@@ -63,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     //Toast.makeText(MainActivity.this, "Enter Account No and Pin", Toast.LENGTH_SHORT).show();
                     Pin.setError("Enter Pin No");
                     Pin.requestFocus();
+                    progressBar.setVisibility(View.INVISIBLE);
                     return;
                 }else {
                     dataBaseReference.child("Extra").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -81,12 +89,15 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                                                 Intent intent = new Intent(MainActivity.this, CustomerHome.class);
                                                 intent.putExtra("accountno", ACC);
                                                 startActivity(intent);
+                                                progressBar.setVisibility(View.INVISIBLE);
                                                 finish();
                                             } else {
                                                 Toast.makeText(MainActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.INVISIBLE);
                                             }
                                         } else {
                                             Toast.makeText(MainActivity.this, "Account No doesn't exists", Toast.LENGTH_SHORT).show();
+                                            progressBar.setVisibility(View.INVISIBLE);
                                         }
                                     }
 
@@ -98,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                             }
                             else{
                                 Toast.makeText(MainActivity.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
+                                progressBar.setVisibility(View.INVISIBLE);
                             }
                         }
 
@@ -131,10 +143,19 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     public boolean onMenuItemClick(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.manager:
-                //startActivity(new Intent(MainActivity.this, MainActivity4.class));
-                return true;
-            case R.id.employee:
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    startActivity(new Intent(MainActivity.this, ManagerHome.class));
+                    return true;
+                } else {
+                    // No user is signed in
+                    startActivity(new Intent(MainActivity.this, ManagerLogin.class));
+                    return true;
+                }
+
+            case R.id.employee:
+                user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {
                     // User is signed in
                     startActivity(new Intent(MainActivity.this, EmployeeHome.class));
@@ -147,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
             case R.id.customer:
                 user = FirebaseAuth.getInstance().getCurrentUser();
+                Toast.makeText(this, "You are in Customer Panel", Toast.LENGTH_SHORT).show();
                 if (user != null) {
                     // User is signed in
                     //Intent intent = new Intent(MainActivity.this, CustomerHome.class);

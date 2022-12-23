@@ -23,21 +23,21 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class CustomerList extends AppCompatActivity implements SelectListener {
+public class EmployeeList extends AppCompatActivity implements SelectListener2 {
 
     RecyclerView recyclerView;
     DatabaseReference database;
-    MyAdapter myAdapter;
+    MyAdapter2 myAdapter;
     //ArrayList<Customer>list;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customer_list);
+        setContentView(R.layout.activity_employee_list);
 
-        recyclerView=findViewById(R.id.customerlist);
-        database= FirebaseDatabase.getInstance().getReference("Customer");
+        recyclerView=findViewById(R.id.employeelist);
+        database= FirebaseDatabase.getInstance().getReference("Employee");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 //        list=new ArrayList<>();
@@ -45,8 +45,6 @@ public class CustomerList extends AppCompatActivity implements SelectListener {
 //        recyclerView.setAdapter(myAdapter);
 
         EditText editText = findViewById(R.id.text);
-//        Button button = findViewById(R.id.search);
-
 
         showData("");
 
@@ -80,18 +78,18 @@ public class CustomerList extends AppCompatActivity implements SelectListener {
 
     private void showData(String key){
 
-        ArrayList<Customer>list = new ArrayList<>();
+        ArrayList<Employee>list = new ArrayList<>();
         database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Customer user=dataSnapshot.getValue(Customer.class);
-                    if(key.isEmpty() || (user != null && user.name.toLowerCase().contains(key))) {
+                    Employee user=dataSnapshot.getValue(Employee.class);
+                    if((key.isEmpty() || (user != null && user.name.toLowerCase().trim().contains(key))) && user.isverified()==true) {
                         list.add(user);
                     }
                 }
-                myAdapter = new MyAdapter(CustomerList.this,list,CustomerList.this);
+                myAdapter = new MyAdapter2(EmployeeList.this,list,EmployeeList.this);
                 recyclerView.setAdapter(myAdapter);
             }
 
@@ -103,14 +101,16 @@ public class CustomerList extends AppCompatActivity implements SelectListener {
     }
 
     @Override
-    public void onItemClicked(Customer customer) {
-        Toast.makeText(this, customer.getName()+" Clicked.  Account No is: "+customer.getAccountno(), Toast.LENGTH_SHORT).show();
-        Intent intent=new Intent(CustomerList.this,EmployeeOnCustomer.class);
-        intent.putExtra("accountno",customer.getAccountno());
-        startActivity(intent);
+    public void onItemClicked(Employee employee) {
+        Toast.makeText(this, employee.getName()+" Clicked.  Account Id is: "+employee.getAccountid(), Toast.LENGTH_SHORT).show();
     }
     public void onBackPressed(){
-        Intent intent=new Intent(CustomerList.this,EmployeeHome.class);
+        Intent intent=new Intent(EmployeeList.this,ManagerHome.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
 }

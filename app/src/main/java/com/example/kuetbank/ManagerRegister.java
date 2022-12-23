@@ -29,7 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
-public class EmployeeRegister extends AppCompatActivity {
+public class ManagerRegister extends AppCompatActivity {
 
     DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://kuet-bank-default-rtdb.firebaseio.com");
     private EditText Pass, Pass2, Name, DateOfBirth, MobileNo, Email, Address;
@@ -43,7 +43,7 @@ public class EmployeeRegister extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_employee_register);
+        setContentView(R.layout.activity_manager_register);
 
         Calendar calender=Calendar.getInstance();
         final int year=calender.get(Calendar.YEAR);
@@ -66,13 +66,12 @@ public class EmployeeRegister extends AppCompatActivity {
         Integer ran = random.intValue();
         Integer ran2 = random2.intValue();
         String AccountNo = String.valueOf(ran);
-        String MicrNo = String.valueOf(ran2);
         AccID.setText(AccountNo);
 
         DateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePickerDialog=new DatePickerDialog(EmployeeRegister.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog=new DatePickerDialog(ManagerRegister.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
                         month=month+1;
@@ -143,32 +142,32 @@ public class EmployeeRegister extends AppCompatActivity {
         }
         mauth.createUserWithEmailAndPassword(email,pass)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    boolean verified=false;
-                    Employee employee=new Employee(AccountID,acctype,name,mobileno,email,pass,gender,dateofbirth,address,verified);
-                    FirebaseDatabase.getInstance().getReference("Employee").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(employee).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(EmployeeRegister.this, "Registered", Toast.LENGTH_SHORT).show();
-                                Intent intent=new Intent(EmployeeRegister.this,LoginEmployee.class);
-                                startActivity(intent);
-                            }
-                            else {
-                                Toast.makeText(EmployeeRegister.this, "Failed to register"+task.getException(), Toast.LENGTH_SHORT).show();
-                            }
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            boolean verified=false;
+                            Manager manager=new Manager(AccountID,acctype,name,mobileno,email,pass,gender,dateofbirth,address,verified);
+                            FirebaseDatabase.getInstance().getReference("Manager").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(manager).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(ManagerRegister.this, "Registered", Toast.LENGTH_SHORT).show();
+                                        Intent intent=new Intent(ManagerRegister.this,LoginEmployee.class);
+                                        startActivity(intent);
+                                    }
+                                    else {
+                                        Toast.makeText(ManagerRegister.this, "Failed to register"+task.getException(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
-                    });
-                }
-                else {
-                    Toast.makeText(EmployeeRegister.this, "Failed to register"+task.getException(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                        else {
+                            Toast.makeText(ManagerRegister.this, "Failed to register"+task.getException(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
     public void onBackPressed(){
-        startActivity(new Intent(EmployeeRegister.this,LoginEmployee.class));
+        startActivity(new Intent(ManagerRegister.this,ManagerLogin.class));
     }
 }

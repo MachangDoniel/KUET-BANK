@@ -32,26 +32,21 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="80dp"
             android:text="We sent an OTP to your Phone, Enter it to go forward"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:background="@color/white"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+880"
-            android:textSize="20dp"
-            android:textStyle="italic"/>
         <TextView
             android:id="@+id/mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="01234567890"
             android:textSize="20dp"
-            android:textStyle="italic" />
+            android:textStyle="italic"
+            android:background="@color/white"/>
         </LinearLayout>
 
         <LinearLayout
@@ -65,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/bg_rounded"
+                android:background="@drawable/bc_rounded"
                 android:ems="10"
                 android:hint="*"
                 android:textSize="25dp"
@@ -80,7 +75,7 @@
                 android:layout_marginRight="10dp"
                 android:ems="10"
                 android:hint="*"
-                android:background="@drawable/bg_rounded"
+                android:background="@drawable/bc_rounded"
                 android:textSize="25dp"
                 android:gravity="center"
                 android:inputType="number" />
@@ -91,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/bg_rounded"
+                android:background="@drawable/bc_rounded"
                 android:ems="10"
                 android:hint="*"
                 android:textSize="25dp"
@@ -107,7 +102,7 @@
                 android:ems="10"
                 android:hint="*"
                 android:textSize="25dp"
-                android:background="@drawable/bg_rounded"
+                android:background="@drawable/bc_rounded"
                 android:gravity="center"
                 android:inputType="number" />
 
@@ -120,7 +115,7 @@
                 android:ems="10"
                 android:hint="*"
                 android:textSize="25dp"
-                android:background="@drawable/bg_rounded"
+                android:background="@drawable/bc_rounded"
                 android:gravity="center"
                 android:inputType="number" />
 
@@ -133,7 +128,7 @@
                 android:ems="10"
                 android:hint="*"
                 android:textSize="25dp"
-                android:background="@drawable/bg_rounded"
+                android:background="@drawable/bc_rounded"
                 android:gravity="center"
                 android:inputType="number" />
         </LinearLayout>

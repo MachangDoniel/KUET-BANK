@@ -92,7 +92,6 @@ public class EmployeeOnCustomer extends AppCompatActivity {
                 startActivity(new Intent(EmployeeOnCustomer.this,EmployeeProfileEdit.class));
             }
         });
-
          */
 
 
