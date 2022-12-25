@@ -21,13 +21,5 @@ public class BlankActivity extends AppCompatActivity {
         //Phone.findViewById(R.id.phone);
         //String phone=getIntent().getStringExtra("phone");
         //Phone.setText("1893097217");
-
-        button=findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(BlankActivity.this,CustomerOTPsend.class));
-            }
-        });
     }
 }

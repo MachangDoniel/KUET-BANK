@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,11 +29,11 @@ import java.util.ArrayList;
 
 public class EmployeeApplicants extends AppCompatActivity implements SelectListener2 {
 
+    DatabaseReference ref,dataBaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://kuet-bank-default-rtdb.firebaseio.com");
     RecyclerView recyclerView;
     DatabaseReference database;
     MyAdapter2 myAdapter;
-    //ArrayList<Customer>list;
-
+    String accountId="",userId="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +44,9 @@ public class EmployeeApplicants extends AppCompatActivity implements SelectListe
         database= FirebaseDatabase.getInstance().getReference("Employee");
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        list=new ArrayList<>();
-//        myAdapter= new MyAdapter(this,list,this);
-//        recyclerView.setAdapter(myAdapter);
-
         EditText editText = findViewById(R.id.text);
 
         showData("");
-
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String key = editText.getText().toString();
-//                showData(key);
-//            }
-//        });
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -87,8 +77,8 @@ public class EmployeeApplicants extends AppCompatActivity implements SelectListe
 
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Employee user=dataSnapshot.getValue(Employee.class);
-                    if((key.isEmpty() || (user != null && user.name.toLowerCase().contains(key))) && user.isverified()==true){
-                    list.add(user);
+                    if((key.isEmpty() || (user != null && user.name.toLowerCase().contains(key))) && user.isverified()!=true){
+                        list.add(user);
                     }
                 }
                 myAdapter = new MyAdapter2(EmployeeApplicants.this,list,EmployeeApplicants.this);
@@ -104,7 +94,21 @@ public class EmployeeApplicants extends AppCompatActivity implements SelectListe
 
     @Override
     public void onItemClicked(Employee employee) {
-        Toast.makeText(this, employee.getName()+" Clicked.  Account Id is: "+employee.getAccountid(), Toast.LENGTH_SHORT).show();
+        accountId=employee.getAccountid();
+        dataBaseReference.child("Extra2").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(accountId)){
+                    userId=snapshot.child(accountId).child("uid").getValue().toString();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        Toast.makeText(this, employee.getName()+" Clicked.  Account Id is: "+accountId, Toast.LENGTH_SHORT).show();
     }
     public void onBackPressed(){
         Intent intent=new Intent(EmployeeApplicants.this,ManagerHome.class);
@@ -118,15 +122,60 @@ public class EmployeeApplicants extends AppCompatActivity implements SelectListe
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
-        return super.onContextItemSelected(item);
+
         switch(item.getItemId()){
             case 121:
-                Toast.makeText(this, "121", Toast.LENGTH_SHORT).show();
+                DatabaseReference ref= FirebaseDatabase.getInstance().getReference("Employee");
+                ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Employee profile=snapshot.getValue(Employee.class);
+
+                        if(profile!=null)
+                        {
+                            boolean verified=true;
+                            ref.child(userId).child("verified").setValue(verified);
+                            myAdapter.removeItem(item.getGroupId());
+                            Toast.makeText(EmployeeApplicants.this, "Applicants Added Successfully as Employee", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(EmployeeApplicants.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 return true;
             case 122:
-                Toast.makeText(this, "122", Toast.LENGTH_SHORT).show();
-                //myAdapter.removeitem(item.getGroupId())
+                //myAdapter.removeitem(item.getGroupId());
+                ref= FirebaseDatabase.getInstance().getReference("Employee");
+                ref.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Employee profile=snapshot.getValue(Employee.class);
+
+                        if(profile!=null)
+                        {
+                            boolean verified=false;
+                            ref.child(userId).child("verified").setValue(verified);
+                            //myAdapter.removeItem(item.getGroupId());
+                            Toast.makeText(EmployeeApplicants.this, "Applicants Deleted from Employee List", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(EmployeeApplicants.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
                 return true;
         }
+        return super.onContextItemSelected(item);
     }
 }

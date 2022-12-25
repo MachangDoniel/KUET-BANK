@@ -39,6 +39,7 @@ public class EmployeeRegister extends AppCompatActivity {
     private RadioButton rbutton;
     private Double Balance = 0D;
     FirebaseAuth mauth;
+    String AccountID,pass,pass2,email,name,dateofbirth,mobileno,address,gender,acctype,uid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,21 +96,21 @@ public class EmployeeRegister extends AppCompatActivity {
     }
 
     private void usersignup() {
-        String AccountID = AccID.getText().toString();
-        String pass = Pass.getText().toString();
-        String pass2=Pass2.getText().toString();
-        String name = Name.getText().toString().trim();
-        String email = Email.getText().toString().trim();
-        String dateofbirth = DateOfBirth.getText().toString();
-        String mobileno = MobileNo.getText().toString().trim();
-        String address = Address.getText().toString().trim();
+        AccountID = AccID.getText().toString();
+        pass = Pass.getText().toString();
+        pass2=Pass2.getText().toString();
+        name = Name.getText().toString().trim();
+        email = Email.getText().toString().trim();
+        dateofbirth = DateOfBirth.getText().toString();
+        mobileno = MobileNo.getText().toString().trim();
+        address = Address.getText().toString().trim();
 
         int genderid = Gender.getCheckedRadioButtonId();
         rbutton = findViewById(genderid);
-        String gender = (String) rbutton.getText();
+        gender = (String) rbutton.getText();
         int accid2 = AccType.getCheckedRadioButtonId();
         rbutton = findViewById(accid2);
-        String acctype = (String) rbutton.getText();
+        acctype = (String) rbutton.getText();
 
         if(email.isEmpty()){
             //Toast.makeText(this, "Enter Email", Toast.LENGTH_SHORT).show();
@@ -146,25 +147,57 @@ public class EmployeeRegister extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    boolean verified=false;
-                    Employee employee=new Employee(AccountID,acctype,name,mobileno,email,pass,gender,dateofbirth,address,verified);
-                    FirebaseDatabase.getInstance().getReference("Employee").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(employee).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    dataBaseReference.child("Extra2").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(EmployeeRegister.this, "Registered", Toast.LENGTH_SHORT).show();
-                                Intent intent=new Intent(EmployeeRegister.this,LoginEmployee.class);
-                                startActivity(intent);
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if(snapshot.hasChild(AccountID)){
+                                MobileNo.setError("Already Registered With this Mobile No");
+                                MobileNo.requestFocus();
+                                return;
                             }
-                            else {
-                                Toast.makeText(EmployeeRegister.this, "Failed to register"+task.getException(), Toast.LENGTH_SHORT).show();
+                            else{
+                                boolean verified=false;
+                                Employee employee=new Employee(AccountID,acctype,name,mobileno,email,pass,gender,dateofbirth,address,verified);
+                                uid=FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                FirebaseDatabase.getInstance().getReference("Employee").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(employee).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            accountnotoid();
+                                            Toast.makeText(EmployeeRegister.this, "Registered", Toast.LENGTH_SHORT).show();
+                                            Intent intent=new Intent(EmployeeRegister.this,LoginEmployee.class);
+                                            startActivity(intent);
+                                        }
+                                        else {
+                                            Toast.makeText(EmployeeRegister.this, "Failed to register"+task.getException(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
                         }
                     });
                 }
                 else {
                     Toast.makeText(EmployeeRegister.this, "Failed to register"+task.getException(), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+    private void accountnotoid() {
+        dataBaseReference.child("Extra2").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dataBaseReference.child("Extra2").child(AccountID).child("uid").setValue(uid);
+                Toast.makeText(EmployeeRegister.this,"Registered Successfully",Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

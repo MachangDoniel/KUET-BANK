@@ -97,6 +97,16 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+        loan=findViewById(R.id.loan1);
+        loan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(CustomerHome.this,CustomerLoan.class);
+                intent.putExtra("accountno",ACC);
+                startActivity(intent);
+            }
+        });
+
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

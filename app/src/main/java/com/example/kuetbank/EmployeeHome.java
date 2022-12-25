@@ -31,8 +31,8 @@ public class EmployeeHome extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
 
 
-    ImageView home,profile,customerlist;
-    TextView home2,profile2,customerlist2;
+    ImageView home,profile,customerlist,noti;
+    TextView home2,profile2,customerlist2,noti2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +59,8 @@ public class EmployeeHome extends AppCompatActivity implements NavigationView.On
         profile2=findViewById(R.id.profile2);
         customerlist=findViewById(R.id.clist);
         customerlist2=findViewById(R.id.clist2);
+        noti=findViewById(R.id.notification1);
+        noti2=findViewById(R.id.notification2);
 
         //String email=getIntent().getStringExtra("email");
         FirebaseUser emp = FirebaseAuth.getInstance().getCurrentUser();
@@ -102,6 +104,20 @@ public class EmployeeHome extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(EmployeeHome.this,CustomerList.class));
+            }
+        });
+        noti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(EmployeeHome.this,EmployeeNotification.class);
+                intent.putExtra("email",email);
+                startActivity(intent);
+            }
+        });
+        noti2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(EmployeeHome.this,EmployeeNotification.class));
             }
         });
     }

@@ -6,110 +6,160 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class CustomerLoan extends AppCompatActivity {
+public class CustomerLoan extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    DatabaseReference dataBaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://kuet-bank-default-rtdb.firebaseio.com");
-    private TextView t1,t2;
-    Button balance,profile,transfer,payment,loan;
+    DatabaseReference ref=FirebaseDatabase.getInstance().getReference("Customer"),ref2=FirebaseDatabase.getInstance().getReference("LOAN");
+    String Loan,Installment,ACC;
+    Double emi,Amount;
+    TextView EMI,show;
+    Spinner spinner,spinner2,spinner3;
+    CheckBox checkBox;
+    Button send;
+    EditText LOAN,pin;
+    String name,accountno;
+    int i=0;
+    CharSequence[] loan={"1000","5000","10000","20000","50000","100000","200000","500000","1000000","2000000"};
+    //String[] installment={"1","2","3","6","12","24","48"};
+    boolean spin=false,spin2=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_loan);
 
-        t1=findViewById(R.id.uname);
-        t2=findViewById(R.id.showbalance);
-        Bundle b1=getIntent().getExtras();
-        int Balance=0,count=0;
-        String ACC=getIntent().getStringExtra("Account_No");
-        dataBaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+        checkBox=findViewById(R.id.checkbox);
+        EMI=findViewById(R.id.emi);
+        LOAN=findViewById(R.id.loan);
+        pin=findViewById(R.id.pin);
+        show=findViewById(R.id.show);
+        spinner=findViewById(R.id.spinner2);
+        send=findViewById(R.id.send);
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this,R.array.loan, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+        ACC=getIntent().getStringExtra("accountno");
+        show.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild(ACC)){
-                    String getName=snapshot.child(ACC).child("Name").getValue(String.class);
-                    t1.setText(getName);
+            public void onClick(View view) {
+                if(LOAN.getText().toString().trim().isEmpty()){
+                    LOAN.setError("Enter Loan Amount");
+                    LOAN.requestFocus();
+                    return;
+                }
+                Amount=Double.valueOf(LOAN.getText().toString().trim());
+                EMI.setText(String.valueOf(emi+"৳"));
+                emi=(Amount+Amount*11/100/12)/Double.valueOf(Installment);
+                if(i%2==1){
+                    show.setText("EMI: ");
+                    EMI.setVisibility(View.VISIBLE);
+                    i++;
                 }
                 else{
-                    Toast.makeText(CustomerLoan.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
+                    show.setText("Show EMI");
+                    EMI.setVisibility(View.INVISIBLE);
+                    i++;
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
         });
-
-
-        balance=findViewById(R.id.balance);
-        balance.setOnClickListener(new View.OnClickListener() {
+        send.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                dataBaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.hasChild(ACC)){
-                            String getBalance=snapshot.child(ACC).child("Balance").getValue(String.class);
-                            String s=getBalance+" ৳";
-                            t2.setText(s);
+            public void onClick(View view) {
+                if(checkBox.isChecked()) {
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.hasChild(ACC)) {
+                                String Pin = pin.getText().toString();
+                                if(LOAN.getText().toString().trim().isEmpty()){
+                                    LOAN.setError("Enter Loan Amount");
+                                    LOAN.requestFocus();
+                                    return;
+                                }
+                                else if (Pin.isEmpty()) {
+                                    pin.setError("Enter PIN");
+                                    pin.requestFocus();
+                                    return;
+                                }
+                                /*
+                                else if (Pin.equals(snapshot.child(ACC).child("pass").getValue().toString())) {
+                                    String Loan=LOAN.getText().toString().trim();
+                                    ref2.child(ACC).child("Loan Amount").setValue(Loan);
+                                    ref2.child(ACC).child("Installment").setValue(Installment);
+                                    String approve="false";
+                                    ref2.child(ACC).child("Approve").setValue(approve);
+                                    Toast.makeText(CustomerLoan.this, "Loan Request Successfully Send", Toast.LENGTH_SHORT).show();
+                                }
+                                 */
+                                else if (Pin.equals(snapshot.child(ACC).child("pass").getValue().toString())) {
+                                    String Loan=LOAN.getText().toString().trim();
+                                    String approve="false";
+                                    accountno=snapshot.child(ACC).child("accountno").getValue().toString();
+                                    name=snapshot.child(ACC).child("name").getValue().toString();
+                                    String Emi=String.valueOf(emi);
+                                    Loan loan=new Loan(name,accountno,approve,Installment,Loan,Emi);
+                                    FirebaseDatabase.getInstance().getReference("LOAN").child(ACC).setValue(loan).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if(task.isSuccessful()){
+                                                Toast.makeText(CustomerLoan.this, "Loan Request Successfully Send", Toast.LENGTH_SHORT).show();
+                                            }
+                                            else {
+                                                Toast.makeText(CustomerLoan.this, "Failed to send Loan Request"+task.getException(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                }
+                                else{
+                                    pin.setError("Wrong PIN");
+                                    pin.requestFocus();
+                                    return;
+                                }
+                            }
                         }
-                        else{
-                            Toast.makeText(CustomerLoan.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
                         }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                    });
+                }
+                else{
+                    Toast.makeText(CustomerLoan.this, "Tik at checkbox to go forward", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        profile=findViewById(R.id.profile);
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerLoan.this,CustomerProfile.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
-        transfer=findViewById(R.id.transfer);
-        transfer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerLoan.this,CustomerTransfer.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
-        payment=findViewById(R.id.payment);
-        payment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerLoan.this,CustomerPayment.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
-        loan=findViewById(R.id.loan);
-        loan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(CustomerLoan.this,CustomerLoan.class);
-                intent.putExtra("Account_No",ACC);
-                startActivity(intent);
-            }
-        });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        Installment=adapterView.getItemAtPosition(i).toString();
+        //Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+    public void onBackPressed(){
+        Intent intent=new Intent(CustomerLoan.this,CustomerHome.class);
+        intent.putExtra("accountno",ACC);
+        startActivity(intent);
     }
 }

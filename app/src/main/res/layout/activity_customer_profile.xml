@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="User Profile"
-        android:textColor="#fff"
+        android:textColor="@color/purple_700"
         android:textStyle="bold"
         android:textSize="30dp"/>
 
