@@ -1,7 +1,15 @@
 package com.example.kuetbank;
 
 public class Loan {
-    String Name,Accountno,Approve,Installment,Loan,Emi;
+    String Name,Accountno,Approve,Installment,Loan,Emi,Pay;
+
+    public String getPay() {
+        return Pay;
+    }
+
+    public void setPay(String pay) {
+        Pay = pay;
+    }
 
     public String getName() {
         return Name;
@@ -51,13 +59,14 @@ public class Loan {
         Emi = emi;
     }
 
-    public Loan(String name, String accountno, String approve, String installment, String loan, String emi) {
+    public Loan(String name, String accountno, String approve, String installment, String loan, String emi,String pay) {
         Name = name;
         Accountno = accountno;
         Approve = approve;
         Installment = installment;
         Loan = loan;
         Emi = emi;
+        Pay=pay;
     }
 
     public Loan() {

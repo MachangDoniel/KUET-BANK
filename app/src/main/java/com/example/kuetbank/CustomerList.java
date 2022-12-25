@@ -105,7 +105,7 @@ public class CustomerList extends AppCompatActivity implements SelectListener {
     @Override
     public void onItemClicked(Customer customer) {
         Toast.makeText(this, customer.getName()+" Clicked.  Account No is: "+customer.getAccountno(), Toast.LENGTH_SHORT).show();
-        Intent intent=new Intent(CustomerList.this,EmployeeOnCustomer.class);
+        Intent intent=new Intent(CustomerList.this,EmployeeOptionForCustomer.class);
         intent.putExtra("accountno",customer.getAccountno());
         startActivity(intent);
     }

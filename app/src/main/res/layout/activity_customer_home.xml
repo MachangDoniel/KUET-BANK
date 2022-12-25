@@ -43,7 +43,7 @@
             android:id="@+id/balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="৳"
+            android:text="Balance"
             android:textSize="18dp"
             android:background="@drawable/bc_rounded"/>
             <TextView
@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Check Balance"
+                android:textColor="@color/white"
                 android:textSize="18dp"
                 android:background="@drawable/bg_rounded"/>
         </LinearLayout>
@@ -60,6 +61,7 @@
             android:layout_height="match_parent"
             android:rowCount="3"
             android:columnCount="2"
+            android:background="@drawable/bc_rounded"
             android:layout_marginTop="50dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
@@ -212,10 +214,12 @@
                     android:gravity="center"
                     android:layout_gravity="center_vertical|center_horizontal">
                     <ImageView
+                        android:id="@+id/withdraw"
                         android:layout_width="53dp"
                         android:layout_height="53dp"
                         android:src="@drawable/withdraw"/>
                     <TextView
+                        android:id="@+id/withdraw2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="WITHDRAW"

@@ -35,7 +35,7 @@ public class CustomerLoan extends AppCompatActivity implements AdapterView.OnIte
     EditText LOAN,pin;
     String name,accountno;
     int i=0;
-    CharSequence[] loan={"1000","5000","10000","20000","50000","100000","200000","500000","1000000","2000000"};
+    //CharSequence[] loan={"1000","5000","10000","20000","50000","100000","200000","500000","1000000","2000000"};
     //String[] installment={"1","2","3","6","12","24","48"};
     boolean spin=false,spin2=false;
     @Override
@@ -113,7 +113,8 @@ public class CustomerLoan extends AppCompatActivity implements AdapterView.OnIte
                                     accountno=snapshot.child(ACC).child("accountno").getValue().toString();
                                     name=snapshot.child(ACC).child("name").getValue().toString();
                                     String Emi=String.valueOf(emi);
-                                    Loan loan=new Loan(name,accountno,approve,Installment,Loan,Emi);
+                                    String Pay="0";
+                                    Loan loan=new Loan(name,accountno,approve,Installment,Loan,Emi,Pay);
                                     FirebaseDatabase.getInstance().getReference("LOAN").child(ACC).setValue(loan).addOnCompleteListener(new OnCompleteListener<Void>() {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {

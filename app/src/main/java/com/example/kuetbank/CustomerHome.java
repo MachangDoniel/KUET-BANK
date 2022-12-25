@@ -27,12 +27,12 @@ import com.google.firebase.database.ValueEventListener;
 
 public class CustomerHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DatabaseReference ref;
+    DatabaseReference ref,ref2;
     private TextView t1,t2;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-    String Balance;
+    String Balance,verified;
     ImageView home,profile,transfer,payment,withdraw,loan,notification;
     TextView home2,profile2,transfer2,payment2,withdraw2,loan2,notification2,balance,check;
     int count=0;
@@ -55,9 +55,9 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        ref= FirebaseDatabase.getInstance().getReference().child("Customer");
-
         String ACC=getIntent().getStringExtra("accountno");
+
+        ref= FirebaseDatabase.getInstance().getReference().child("Customer");
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -65,10 +65,28 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
                     //String getName=snapshot.child(ACC).child("Name").getValue(String.class);
                     String getName=snapshot.child(ACC).child("name").getValue().toString();
                     Balance=snapshot.child(ACC).child("balance").getValue().toString();
-                    //t1.setText(getName);
                 }
                 else{
                     Toast.makeText(CustomerHome.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        ref2=FirebaseDatabase.getInstance().getReference().child("LOAN");
+        ref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.hasChild(ACC)) {
+                    verified=snapshot.child(ACC).child("approve").getValue().toString();
+                    //Toast.makeText(CustomerHome.this,"ok "+verified, Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    verified="not true";
+                    //Toast.makeText(CustomerHome.this, "You have no loan to pay", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -101,11 +119,29 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
         loan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(CustomerHome.this,CustomerLoan.class);
-                intent.putExtra("accountno",ACC);
-                startActivity(intent);
+
+
+                //Toast.makeText(CustomerHome.this,"ok2 "+verified, Toast.LENGTH_SHORT).show();
+                if(verified.equals("true")){
+                    Intent intent=new Intent(CustomerHome.this,CustomerClearLoan.class);
+                    intent.putExtra("accountno",ACC);
+                    startActivity(intent);
+                }
+                else if(verified.equals("not true")){
+                    //Toast.makeText(CustomerHome.this, "", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(CustomerHome.this,CustomerLoan.class);
+                    intent.putExtra("accountno",ACC);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(CustomerHome.this, "Your Previous Loan Request is still under process", Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(CustomerHome.this,CustomerLoan.class);
+                    intent.putExtra("accountno",ACC);
+                    startActivity(intent);
+                }
             }
         });
+        withdraw=findViewById(R.id.withdraw);
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,6 +15,27 @@
         android:theme="@style/Theme.KUETBANK"
         tools:targetApi="31">
         <activity
+            android:name=".CustomerWithdraw"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".EmployeeAddMoney"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".EmployeeOptionForCustomer"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".CustomerClearLoan"
             android:exported="false">
             <meta-data

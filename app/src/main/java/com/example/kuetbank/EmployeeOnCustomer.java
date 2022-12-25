@@ -24,14 +24,14 @@ public class EmployeeOnCustomer extends AppCompatActivity {
     DatabaseReference ref,dataBaseReference= FirebaseDatabase.getInstance().getReferenceFromUrl("https://kuet-bank-default-rtdb.firebaseio.com");
     TextView Accountno,accounttype,name,mobile,gender,dob,address,balance;
     Customer customer;
-    String userId;
+    String userId,ACC;
     Button edit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_on_customer);
 
-        String ACC=getIntent().getStringExtra("accountno");
+        ACC=getIntent().getStringExtra("accountno");
         Accountno=findViewById(R.id.accountno);
         accounttype=findViewById(R.id.accounttype);
         name=findViewById(R.id.name);
@@ -97,7 +97,8 @@ public class EmployeeOnCustomer extends AppCompatActivity {
 
     }
     public void onBackPressed(){
-        Intent intent=new Intent(EmployeeOnCustomer.this,CustomerList.class);
+        Intent intent=new Intent(EmployeeOnCustomer.this,EmployeeOptionForCustomer.class);
+        intent.putExtra("accountno",ACC);
         startActivity(intent);
     }
 }

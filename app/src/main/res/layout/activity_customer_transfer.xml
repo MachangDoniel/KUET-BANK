@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Account No"
-                    android:inputType="textPersonName" />
+                    android:inputType="number" />
 
                 <Button
                     android:id="@+id/search"
@@ -97,7 +97,7 @@
                 android:layout_marginBottom="30dp"
                 android:ems="10"
                 android:hint="PIN"
-                android:inputType="textPersonName" />
+                android:inputType="numberPassword" />
 
             <Button
                 android:id="@+id/send"
