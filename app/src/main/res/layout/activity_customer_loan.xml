@@ -37,48 +37,37 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="About Loans "
-                    android:textSize="20dp"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="   Click Here"
-                    android:textSize="20dp"
-                    android:textStyle="italic"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_margin="10dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Terms and Conditions"/>
+                    android:text="Terms and Conditions"
+                    android:textStyle="bold"
+                    android:textSize="16sp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:text="1."/>
+                    android:textStyle="italic"
+                    android:text="1. Loan must be paid within time"
+                    android:textSize="16sp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:text="2."/>
+                    android:textStyle="italic"
+                    android:text="2. Loan application can't be canceled"
+                    android:textSize="16sp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="20dp"
-                    android:text="3."/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:text="4."/>
+                    android:textStyle="italic"
+                    android:text="3. You must pay your EMI with 11% of EMI charge"
+                    android:textSize="16sp" />
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,10 +77,12 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/checkbox"
                     android:checked="false"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="I agree to these terms and conditions given above."/>
+                    android:text="I agree to these terms and conditions given above."
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -103,21 +94,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginLeft="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Loan Amount"
-                    android:textSize="15dp"
-                    android:textStyle="bold"/>
+                    android:layout_marginLeft="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Loan Amount"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
                     <EditText
                         android:id="@+id/loan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="Amount"
                         android:inputType="number"
-                        android:textSize="15dp"
-                        android:textStyle="bold"/>
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"/>
 
 
                 </LinearLayout>
@@ -126,17 +120,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_marginLeft="20dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Installment"
-                    android:textSize="15dp"
-                    android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Installment"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
                 <Spinner
                     android:id="@+id/spinner2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
                     android:background="@android:drawable/btn_dropdown" />
                 </LinearLayout>
             </LinearLayout>
@@ -144,20 +140,23 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/show"
-                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:ems="10"
-                android:text="Show EMI"
-                android:textStyle="bold"
-                android:textSize="15dp"
-                android:inputType="numberDecimal" />
+                android:layout_marginLeft="0dp">
+
+                <Button
+                    android:id="@+id/show"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:ems="10"
+                    android:inputType="numberDecimal"
+                    android:text="Show EMI"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/emi"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="invisible" />
@@ -170,8 +169,8 @@
                 android:layout_marginBottom="30dp"
                 android:ems="10"
                 android:hint="PIN"
-                android:textSize="15dp"
-                android:inputType="numberPassword" />
+                android:inputType="numberPassword"
+                android:textSize="20dp" />
 
             <Button
                 android:id="@+id/send"

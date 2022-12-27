@@ -141,7 +141,6 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-        withdraw=findViewById(R.id.withdraw);
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +185,11 @@ public class CustomerHome extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_transfer:
                 intent=new Intent(CustomerHome.this,CustomerTransfer.class);
+                intent.putExtra("accountno",ACC);
+                startActivity(intent);
+                break;
+            case R.id.nav_history:
+                intent=new Intent(CustomerHome.this,CustomerTransactionHistory.class);
                 intent.putExtra("accountno",ACC);
                 startActivity(intent);
                 break;

@@ -31,24 +31,4 @@
         </menu>
     </item>
 
-    <item android:title="Communicate Us">
-        <menu>
-        <group android:checkableBehavior="single">
-            <item
-                android:id="@+id/nav_home3"
-                android:title="Communicate Us"
-                android:icon="@drawable/ic_logout"/>
-            <item
-                android:id="@+id/nav_policy"
-                android:title="Policy"
-                android:icon="@drawable/ic_logout"/>
-            <item
-                android:id="@+id/nav_rate_us"
-                android:title="Rate Us"
-                android:icon="@drawable/ic_star"/>
-
-        </group>
-        </menu>
-
-    </item>
 </menu>

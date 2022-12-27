@@ -14,23 +14,19 @@
         <item
             android:id="@+id/nav_transfer"
             android:title="Transfer"
-            android:icon="@drawable/ic_lcustomer"/>
-        <item
-            android:id="@+id/nav_withdraw"
-            android:title="Withdraw"
-            android:icon="@drawable/ic_lcustomer"/>
+            android:icon="@drawable/ic_transfer"/>
         <item
             android:id="@+id/nav_loan"
             android:title="Loan"
-            android:icon="@drawable/ic_lcustomer"/>
+            android:icon="@drawable/ic_loan"/>
         <item
             android:id="@+id/nav_payment"
             android:title="Payment"
-            android:icon="@drawable/ic_lcustomer"/>
+            android:icon="@drawable/ic_payment"/>
         <item
-            android:id="@+id/nav_notification"
-            android:title="Notification"
-            android:icon="@drawable/ic_lnotification"/>
+            android:id="@+id/nav_history"
+            android:title="Transaction History"
+            android:icon="@drawable/ic_history"/>
     </group>
     <item android:title="Profile">
         <menu>
@@ -43,24 +39,4 @@
         </menu>
     </item>
 
-    <item android:title="Communicate Us">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/nav_home3"
-                    android:title="Communicate Us"
-                    android:icon="@drawable/ic_logout"/>
-                <item
-                    android:id="@+id/nav_policy"
-                    android:title="Policy"
-                    android:icon="@drawable/ic_logout"/>
-                <item
-                    android:id="@+id/nav_rate_us"
-                    android:title="Rate Us"
-                    android:icon="@drawable/ic_star"/>
-
-            </group>
-        </menu>
-
-    </item>
 </menu>

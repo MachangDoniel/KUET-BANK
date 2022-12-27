@@ -22,9 +22,11 @@ public class CustomerClearLoan extends AppCompatActivity {
     TextView Installment,date,amount,Pay;
     EditText pin;
     Button send;
-    String ACC;
     Double Balance,Emi;
     int PAY;
+    String ACC;
+    long max=2147483647;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +93,7 @@ public class CustomerClearLoan extends AppCompatActivity {
                                 ref2.child(ACC).child("balance").setValue(String.valueOf(Balance));
                                 ref.child(ACC).child("pay").setValue(String.valueOf(PAY));
                                 Toast.makeText(CustomerClearLoan.this, "EMI payment Successfull", Toast.LENGTH_SHORT).show();;
+                                enterhistory(String.valueOf(Emi));
 
                                 if(String.valueOf(PAY).equals(Installment.getText().toString().trim())){
                                     Toast.makeText(CustomerClearLoan.this, "Congratulation!, Your EMI is Cleared", Toast.LENGTH_SHORT).show();
@@ -111,6 +114,21 @@ public class CustomerClearLoan extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+    }
+    private void enterhistory(String amount) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Transaction");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long maxid=snapshot.child(ACC).getChildrenCount();
+                reference.child(ACC).child(String.valueOf(max-maxid)).setValue("Paid EMI of "+amount+"৳, "+Pay.getText().toString().trim()+ " Installation");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

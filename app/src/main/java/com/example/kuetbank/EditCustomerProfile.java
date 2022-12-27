@@ -63,6 +63,8 @@ public class EditCustomerProfile extends AppCompatActivity {
                     //String getadd=snapshot.child(ACC).child("address").getValue(String.class);
                     String getadd=snapshot.child(ACC).child("address").getValue().toString();
                     address.setText(getadd);
+                    String getmobile=snapshot.child(ACC).child("mobile").getValue().toString();
+                    mobileno.setText(getmobile);
                 }
                 else{
                     Toast.makeText(EditCustomerProfile.this,"Account No doesn't exists",Toast.LENGTH_SHORT).show();

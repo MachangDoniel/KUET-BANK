@@ -23,7 +23,8 @@ public class CustomerTransfer extends AppCompatActivity {
     private TextView t1,t2,name;
     private EditText accountno,amount,pin;
     Button balance,profile,transfer,payment,loan,search,send;
-    String ACC;
+    String ACC,AccountNo;
+    long max=2147483647;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +45,7 @@ public class CustomerTransfer extends AppCompatActivity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String AccountNo=accountno.getText().toString();
+                AccountNo=accountno.getText().toString();
                 if(AccountNo.isEmpty()){
                     //Toast.makeText(CustomerTransfer.this,"Enter Receiver's Account No",Toast.LENGTH_SHORT).show();
                     accountno.setError("Enter Receiver's Account No");
@@ -118,6 +119,9 @@ public class CustomerTransfer extends AppCompatActivity {
                                                 getBalance2+=Amount;
                                                 String Balance2=String.valueOf(getBalance2);
                                                 ref.child(AccountNo).child("balance").setValue(Balance2);
+
+                                                enterhistory(String.valueOf(Amount));
+
                                                 Toast.makeText(CustomerTransfer.this,"Transaction Successfull",Toast.LENGTH_SHORT).show();
                                                 Intent intent=new Intent(CustomerTransfer.this,CustomerHome.class);
                                                 intent.putExtra("accountno",ACC);
@@ -154,6 +158,25 @@ public class CustomerTransfer extends AppCompatActivity {
         });
 
     }
+
+    private void enterhistory(String amount) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Transaction");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long maxid=snapshot.child(ACC).getChildrenCount();
+                reference.child(ACC).child(String.valueOf(max-maxid)).setValue("Transferred "+amount+"৳ to "+AccountNo);
+                maxid=snapshot.child(AccountNo).getChildrenCount();
+                reference.child(AccountNo).child(String.valueOf(max-maxid)).setValue("Transferred "+amount+"৳ from "+ACC);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public void onBackPressed(){
         Intent intent=new Intent(CustomerTransfer.this,CustomerHome.class);
         intent.putExtra("accountno",ACC);

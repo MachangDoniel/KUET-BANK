@@ -25,15 +25,16 @@
                 android:layout_height="wrap_content"
                 android:text="Account No: "
                 android:textColor="@color/black"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/accountno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1907121"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="20sp" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -47,15 +48,16 @@
                 android:layout_height="wrap_content"
                 android:text="Name: "
                 android:textColor="@color/black"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Doniel Tripura"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,15 +72,16 @@
                 android:layout_height="wrap_content"
                 android:text="Email: "
                 android:textColor="@color/black"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="abc@gmail.com"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 

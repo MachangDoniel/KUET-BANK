@@ -94,6 +94,21 @@
                 android:gravity="center_horizontal"
                 android:background="@drawable/bc_rounded"/>
         </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="20dp">
+            <TextView
+                android:id="@+id/history"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Transaction History"
+                android:textSize="25dp"
+                android:textColor="@color/newcolor"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:background="@drawable/bc_rounded"/>
+        </androidx.cardview.widget.CardView>
 
     </GridLayout>
     </LinearLayout>

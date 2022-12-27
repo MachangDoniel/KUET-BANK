@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 public class EmployeeOptionForCustomer extends AppCompatActivity {
 
-    TextView profile,add,transfer,withdraw;
+    TextView profile,add,transfer,withdraw,history;
     String ACC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,7 @@ public class EmployeeOptionForCustomer extends AppCompatActivity {
         add=findViewById(R.id.add);
         transfer=findViewById(R.id.transfer);
         withdraw=findViewById(R.id.withdraw);
+        history=findViewById(R.id.history);
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -41,13 +42,25 @@ public class EmployeeOptionForCustomer extends AppCompatActivity {
         transfer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(EmployeeOptionForCustomer.this, "Under Process", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(EmployeeOptionForCustomer.this,EmployeeTransfer.class);
+                intent.putExtra("accountno",ACC);
+                startActivity(intent);
             }
         });
         withdraw.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(EmployeeOptionForCustomer.this, "Under Process", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(EmployeeOptionForCustomer.this,EmployeeWithdraw.class);
+                intent.putExtra("accountno",ACC);
+                startActivity(intent);
+            }
+        });
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(EmployeeOptionForCustomer.this,TransactionList.class);
+                intent.putExtra("accountno",ACC);
+                startActivity(intent);
             }
         });
     }

@@ -48,7 +48,8 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="Account No"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textSize="20dp" />
 
                 <Button
                     android:id="@+id/search"
@@ -68,7 +69,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Receiver Name:"
-                    android:textSize="18dp" />
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
 
                 <TextView
@@ -77,7 +79,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text=""
-                    android:textSize="18dp" />
+                    android:textSize="20dp" />
             </LinearLayout>
 
 
@@ -88,7 +90,8 @@
                 android:layout_marginBottom="30dp"
                 android:ems="10"
                 android:hint="Amount"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/pin"
@@ -97,7 +100,8 @@
                 android:layout_marginBottom="30dp"
                 android:ems="10"
                 android:hint="PIN"
-                android:inputType="numberPassword" />
+                android:inputType="numberPassword"
+                android:textSize="20dp" />
 
             <Button
                 android:id="@+id/send"

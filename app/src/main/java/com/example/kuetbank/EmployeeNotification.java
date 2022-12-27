@@ -33,7 +33,8 @@ public class EmployeeNotification extends AppCompatActivity implements SelectLis
     //ArrayList<Customer>list;
     String userId="",accountId="";
     Double Loan=0d;
-
+    String ACC;
+    long max=2147483647;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +131,7 @@ public class EmployeeNotification extends AppCompatActivity implements SelectLis
                             balance+=Loan;
                             String Balance=String.valueOf(balance);
                             ref2.child(accountId).child("balance").setValue(Balance);
+                            enterhistory(String.valueOf(Loan));
                             Toast.makeText(EmployeeNotification.this, "Loan Sent To Customer", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(EmployeeNotification.this, "Error", Toast.LENGTH_SHORT).show();
@@ -170,6 +172,21 @@ public class EmployeeNotification extends AppCompatActivity implements SelectLis
                 return true;
         }
         return super.onContextItemSelected(item);
+    }
+    private void enterhistory(String amount) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Transaction");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long maxid=snapshot.child(accountId).getChildrenCount();
+                reference.child(accountId).child(String.valueOf(max-maxid)).setValue("Accepted loan request of "+amount+"৳ by agent");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void onBackPressed(){

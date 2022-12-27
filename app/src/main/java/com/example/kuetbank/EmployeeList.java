@@ -30,7 +30,7 @@ public class EmployeeList extends AppCompatActivity implements SelectListener2 {
     RecyclerView recyclerView;
     DatabaseReference database;
     MyAdapter2 myAdapter;
-    String accountId="",userId="";
+    String accountId="",userId="12345";
     //ArrayList<Customer>list;
 
 

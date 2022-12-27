@@ -24,6 +24,7 @@ public class EmployeeAddMoney extends AppCompatActivity {
     Button add;
     String ACC;
     Double Amount;
+    long max=2147483647;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +50,6 @@ public class EmployeeAddMoney extends AppCompatActivity {
                             Double balance = Double.valueOf(snapshot.child(ACC).child("balance").getValue().toString());
                             balance += Amount;
                             ref.child(ACC).child("balance").setValue(String.valueOf(balance));
-                            Toast.makeText(EmployeeAddMoney.this, "Money Added Successfully", Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(EmployeeAddMoney.this,EmployeeOptionForCustomer.class);
-                            intent.putExtra("accountno",ACC);
-                            startActivity(intent);
                         }
                         else{
                             Toast.makeText(EmployeeAddMoney.this, "Error", Toast.LENGTH_SHORT).show();
@@ -71,6 +68,11 @@ public class EmployeeAddMoney extends AppCompatActivity {
                         Double balance = Double.valueOf(snapshot.child("YqzFWzyBiQRlRIC6AM3REGZh9Rh2").child("balance").getValue().toString());
                         balance -= Amount;
                         central.child("YqzFWzyBiQRlRIC6AM3REGZh9Rh2").child("balance").setValue(String.valueOf(balance));
+                        enterhistory(String.valueOf(Amount));
+                        Toast.makeText(EmployeeAddMoney.this, "Money Added Successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(EmployeeAddMoney.this,EmployeeOptionForCustomer.class);
+                        intent.putExtra("accountno",ACC);
+                        startActivity(intent);
                     }
 
                     @Override
@@ -78,6 +80,21 @@ public class EmployeeAddMoney extends AppCompatActivity {
 
                     }
                 });
+            }
+        });
+    }
+    private void enterhistory(String amount) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Transaction");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long maxid=snapshot.child(ACC).getChildrenCount();
+                reference.child(ACC).child(String.valueOf(max-maxid)).setValue("Added "+amount+"৳ by agent");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
