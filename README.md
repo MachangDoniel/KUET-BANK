@@ -23,37 +23,37 @@ Download this tools.
 ## Project Demo
 ### Flow Chart
 From Customers perspective
-![Alt text](image-2.png)
+![Alt text](text/image-2.png)
 
 From Employees perspective
-![Alt text](image-1.png)
+![Alt text](text/image-1.png)
 
 From Admins Perspective
-![Alt text](image-3.png)
+![Alt text](text/image-3.png)
 
 ### Screenshots
 
-![Alt text](image-9.png)
+![Alt text](text/image-9.png)
 
-![Alt text](image-10.png)
+![Alt text](text/image-10.png)
 
-![Alt text](image-11.png)
+![Alt text](text/image-11.png)
 
-![Alt text](image-12.png)
+![Alt text](text/image-12.png)
 
-![Alt text](image-13.png)
+![Alt text](text/image-13.png)
 
-![Alt text](image-14.png)
+![Alt text](text/image-14.png)
 
 ### Firebase Authentication
 
-![Alt text](image-8.png)
+![Alt text](text/image-8.png)
 
-![Alt text](image-7.png)
+![Alt text](text/image-7.png)
 
 
 ### Firebase Database
 
-![Alt text](image-4.png)
+![Alt text](text/image-4.png)
 
-![Alt text](image-6.png)
+![Alt text](text/image-6.png)
